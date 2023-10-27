@@ -1,19 +1,31 @@
 import React, { useEffect, useRef, useState } from "react";
-import Header from "../components/Header";
 import CategoryCard from "../components/CategoryCard";
-import { getCategories } from "../common/apis";
-import { ICategory } from "../common/types";
+import { getCategories, getMenuItems } from "../common/apis";
+import { ICategory, IMenuItem } from "../common/types";
+import ProductCard from "../components/ProductCard";
+import ProductCardSkeleton from "../components/skeleton/ProductCardSkeleton";
+import Nodata from "../components/Nodata";
 
 const Home: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [categories, setCategories] = useState<ICategory[]>([]);
+  const [popularProducts, setPopularProducts] = useState<IMenuItem[]>([]);
 
   const getCategoriesData = async () => {
-    setIsLoading(true);
     const data = await getCategories();
-    setIsLoading(false);
+
     setCategories(data);
+  };
+
+  const getPopularProduct = async () => {
+    setIsLoading(true);
+    const res = await getMenuItems();
+    setIsLoading(false);
+    if (res) {
+      let temp = res.filter((item: IMenuItem) => item.category._id === 11);
+      setPopularProducts(temp);
+    }
   };
 
   const scrollLeft = () => {
@@ -36,18 +48,12 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     getCategoriesData();
+    getPopularProduct();
   }, []);
-
-  // TODO: update scroll
-
-  //TODO: design loading page
-  if (isLoading) {
-    return <div>loading...</div>;
-  }
 
   return (
     <div>
-      <Header />
+      {/*TODO: improve UI categories */}
       <div className="container m-auto my-10">
         <div className="relative">
           <button
@@ -77,6 +83,30 @@ const Home: React.FC = () => {
             )}
           </div>
         </div>
+      </div>
+
+      {/* Popular Items */}
+
+      <div className="container mx-auto">
+        <div className="text-xl font-bold"> Popular</div>
+
+        <div className="grid gap-3 my-4 mx-2 md:grid-cols-2 justify-center">
+          {(isLoading ? [...Array(12)] : popularProducts).map(
+            (product: IMenuItem, index: number) =>
+              product ? (
+                <div key={product._id}>
+                  <ProductCard product={product} />
+                </div>
+              ) : (
+                <div key={index}>
+                  {/* TODO: improve this */}
+                  <ProductCardSkeleton />
+                </div>
+              )
+          )}
+        </div>
+
+        {popularProducts.length === 0 && <Nodata />}
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ interface IProps {
 }
 
 const CategoryCard = ({ Category }: IProps) => {
-  const { _id, name, order } = Category;
+  const { name } = Category;
 
   return (
     <div className="text-center cursor-pointer">
