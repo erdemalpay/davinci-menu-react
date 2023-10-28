@@ -12,12 +12,14 @@ interface IProps {
 const CategoryCard = ({ Category, isActive }: IProps) => {
   const { name } = Category;
 
+  console.log("log: ", isActive);
+
   return (
     <div className="text-center cursor-pointer">
       <div
-        className={`w-48 ${
-          isActive ? "bg-orange-400" : ""
-        } border border-gray-200 shadow-md py-3 px-5 rounded-lg bg-white hover:bg-orange-200 duration-1000  overflow-hidden`}
+        className={`${
+          isActive ? "bg-[#f8a56c]" : ""
+        } w-48 border border-gray-200 shadow-md py-3 px-5 rounded-lg bg-white hover:bg-orange-200 duration-1000  overflow-hidden`}
       >
         <div className="h-36 overflow-hidden">
           <img

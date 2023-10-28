@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import CategoryCard from "../components/CategoryCard";
 import { getCategories, getMenuItems } from "../common/apis";
 import { ICategory, IMenuItem } from "../common/types";
@@ -6,41 +6,44 @@ import ProductCard from "../components/ProductCard";
 import ProductCardSkeleton from "../components/skeleton/ProductCardSkeleton";
 import Nodata from "../components/Nodata";
 import CategoryCardSkeleton from "../components/skeleton/CategoryCardSkeleton";
+import { useQuery } from "react-query";
 
 const Home: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const [categories, setCategories] = useState<ICategory[]>([]);
-
   const [popularProducts, setPopularProducts] = useState<IMenuItem[]>([]);
-
-  const [allProducts, setAllProducts] = useState<IMenuItem[]>([]);
 
   const [filterProducts, setFilterProducts] = useState<IMenuItem[]>([]);
 
   const [activeCategory, setActiveCategory] = useState<ICategory | null>(null);
 
-  const getCategoriesData = async () => {
-    const data = await getCategories();
+  const { isLoading: isMenuLoading, data: menuItems = [] } = useQuery(
+    "menuItem",
+    getMenuItems,
+    {
+      onSuccess: (data: IMenuItem[]) => {
+        let popularItem = data.filter(
+          (item: IMenuItem) =>
+            item.category._id === 11 && item.priceNeorama !== 0
+        );
+        setPopularProducts(popularItem);
+      },
+    }
+  );
 
-    setCategories(data);
-  };
+  const { isLoading, data: categories = [] } = useQuery(
+    "categories",
+    getCategories
+  );
 
-  const getPopularProduct = async () => {
-    setIsLoading(true);
-    const res = await getMenuItems();
-    setIsLoading(false);
-    if (res) {
-      let allItems = res.filter((item: IMenuItem) => item.priceNeorama !== 0);
-
-      setAllProducts(allItems);
-
-      let popularItem = res.filter(
-        (item: IMenuItem) => item.category._id === 11 && item.priceNeorama !== 0
+  const handleCategory = (category: ICategory) => {
+    setActiveCategory(category);
+    if (menuItems) {
+      const temp = menuItems.filter(
+        (item: IMenuItem) =>
+          item.category._id === category._id && item.priceNeorama !== 0
       );
-      setPopularProducts(popularItem);
+      setFilterProducts(temp);
     }
   };
 
@@ -62,24 +65,10 @@ const Home: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    getCategoriesData();
-    getPopularProduct();
-  }, []);
-
-  const handleCategory = (category: ICategory) => {
-    setActiveCategory(category);
-    const temp = allProducts.filter(
-      (item: IMenuItem) => item.category._id === category._id
-    );
-
-    setFilterProducts(temp);
-  };
-
   return (
     <div className="container mx-auto">
       {/* Popular Categories */}
-      <div className=" m-auto my-10">
+      <div className="m-auto my-10">
         <div className="relative">
           <button
             onClick={scrollLeft}
@@ -141,7 +130,7 @@ const Home: React.FC = () => {
         </div>
 
         <div className="grid gap-3 my-4 mx-2 lg:grid-cols-2 justify-center">
-          {(isLoading
+          {(isMenuLoading
             ? [...Array(12)]
             : activeCategory
             ? filterProducts
@@ -159,7 +148,9 @@ const Home: React.FC = () => {
           )}
         </div>
 
-        {popularProducts.length === 0 && <Nodata />}
+        {(popularProducts.length === 0 || filterProducts.length === 0) && (
+          <Nodata />
+        )}
       </div>
     </div>
   );
