@@ -6,14 +6,19 @@ function getRandom() {
 
 interface IProps {
   Category: ICategory;
+  isActive?: boolean;
 }
 
-const CategoryCard = ({ Category }: IProps) => {
+const CategoryCard = ({ Category, isActive }: IProps) => {
   const { name } = Category;
 
   return (
     <div className="text-center cursor-pointer">
-      <div className="w-36 border border-gray-200 shadow-lg p-3 rounded-lg">
+      <div
+        className={`w-48 ${
+          isActive ? "bg-orange-400" : ""
+        } border border-gray-200 shadow-md py-3 px-5 rounded-lg bg-white hover:bg-orange-200 duration-1000  overflow-hidden`}
+      >
         <div className="h-36 overflow-hidden">
           <img
             src={`src/assets/${getRandom()}.png`}
@@ -23,7 +28,9 @@ const CategoryCard = ({ Category }: IProps) => {
         </div>
       </div>
       <div className="p-4">
-        <p className="text-blue-gray font-medium">{name}</p>
+        <p className={`${isActive ? "text-orange-400" : ""}  font-medium`}>
+          {name}
+        </p>
       </div>
     </div>
   );

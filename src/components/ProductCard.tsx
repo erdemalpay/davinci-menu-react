@@ -23,13 +23,12 @@ const ProductCard = ({ product }: IProps) => {
           </p>
           <p className="text-gray-500"> {category?.name} </p>
 
-          <p className="mt-2 text-gray-500">
-            Product description... Lorem ipsum dolor sit, amet consectetur
-            adipisicing elit. Odit debitis eius, cumque ad consequatur ipsum
-            sapiente...{" "}
+          <p className="mt-2 text-gray-500  max-sm:text-sm max-sm:mt-1">
+            IngredientsIngredients IngredientsIngredients IngredientsIngredients
+            ...
           </p>
 
-          <div className="mt-3 text-end">
+          <div className="mt-3 text-end max-sm:mt-1">
             <p className="text-md font-bold">
               <span>Price :</span>
               <span className="text-gray-500"> ₺ {priceNeorama}</span>

@@ -5,7 +5,6 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -34,11 +33,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #d9d9d9;
+  background-color: #f79c68b2;
   border-radius: 30px;
 }
 
 html {
   scrollbar-width: thin;
-  scrollbar-color: #d9d9d9 #f2f2f2;
+  scrollbar-color: #f79c68 #f2f2f2;
+  scroll-behavior: smooth;
 }
