@@ -113,10 +113,9 @@ const Home: React.FC = () => {
 
       {/* Popular Items */}
 
-      <div className="">
+      <div>
         <div className=" flex justify-between ">
           <div className="text-xl font-bold">
-            {" "}
             {activeCategory ? activeCategory.name : "Popular"}
           </div>
           {activeCategory && (

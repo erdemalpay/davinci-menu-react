@@ -12,8 +12,6 @@ interface IProps {
 const CategoryCard = ({ Category, isActive }: IProps) => {
   const { name } = Category;
 
-  console.log("log: ", isActive);
-
   return (
     <div className="text-center cursor-pointer">
       <div
