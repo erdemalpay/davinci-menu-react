@@ -16,8 +16,8 @@ const CategoryCard = ({ Category, isActive }: IProps) => {
     <div className="text-center cursor-pointer">
       <div
         className={`${
-          isActive ? "bg-[#f8a56c]" : ""
-        } w-48 border border-gray-200 shadow-md py-3 px-5 rounded-lg bg-white hover:bg-orange-200 duration-1000  overflow-hidden`}
+          isActive ? "bg-[#FFD205]" : ""
+        } w-48 border border-gray-200 shadow-md py-3 px-5 rounded-lg bg-white hover:bg-[#FFD205a0] duration-1000  overflow-hidden max-sm:w-32`}
       >
         <div className="h-36 overflow-hidden">
           <img
@@ -27,7 +27,7 @@ const CategoryCard = ({ Category, isActive }: IProps) => {
           />
         </div>
       </div>
-      <div className="p-4">
+      <div className="p-4 text-[#7D849A]">
         <p className={`${isActive ? "text-orange-400" : ""}  font-medium`}>
           {name}
         </p>

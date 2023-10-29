@@ -7,6 +7,7 @@ import ProductCardSkeleton from "../components/skeleton/ProductCardSkeleton";
 import Nodata from "../components/Nodata";
 import CategoryCardSkeleton from "../components/skeleton/CategoryCardSkeleton";
 import { useQuery } from "react-query";
+import OffersCard from "../components/OffersCard";
 
 const Home: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -109,7 +110,15 @@ const Home: React.FC = () => {
       </div>
 
       {/* Hot Offers */}
-      <div></div>
+      <div className="my-8 mx-2">
+        <div className="flex gap-3 overflow-x-scroll whitespace-nowrap">
+          {[...Array(3)].map((_, index: number) => (
+            <div key={index}>
+              <OffersCard />
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* Popular Items */}
 
@@ -147,7 +156,7 @@ const Home: React.FC = () => {
           )}
         </div>
 
-        {(popularProducts.length === 0 || filterProducts.length === 0) && (
+        {popularProducts.length === 0 && filterProducts.length === 0 && (
           <Nodata />
         )}
       </div>

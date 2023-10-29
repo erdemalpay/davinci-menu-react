@@ -23,7 +23,7 @@ const ProductCard = ({ product }: IProps) => {
           </p>
           <p className="text-gray-500"> {category?.name} </p>
 
-          <p className="mt-2 text-gray-500  max-sm:text-sm max-sm:mt-1">
+          <p className="mt-2 text-[#7D849A]  max-sm:text-sm max-sm:mt-1">
             IngredientsIngredients IngredientsIngredients IngredientsIngredients
             ...
           </p>
