@@ -1,9 +1,9 @@
 const CategoryCardSkeleton = () => {
   return (
     <div className="text-center">
-      <div className="w-48 border border-gray-200 shadow-md p-1 rounded-lg">
+      <div className="flex justify-center items-center max-md:w-24 max-md:h-24 h-36 w-36 shadow  border border-gray-200  p-1 rounded-lg">
         <div className="animate-pulse space-x-2">
-          <div className="rounded bg-slate-300 h-36"></div>
+          <div className="rounded bg-slate-300 h-24 w-24 max-md:h-14 max-md:w-14"></div>
         </div>
       </div>
 
