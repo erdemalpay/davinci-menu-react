@@ -13,25 +13,19 @@ const CategoryCard = ({ Category, isActive }: IProps) => {
   const { name } = Category;
 
   return (
-    <div className="text-center cursor-pointer">
+    <div className="flex flex-col items-center">
       <div
         className={`${
-          isActive ? "bg-[#FFD205]" : ""
-        } w-48 border border-gray-200 shadow-md py-3 px-5 rounded-lg bg-white hover:bg-[#FFD205a0] duration-1000  overflow-hidden max-sm:w-32`}
+          isActive ? "bg-yellow-400" : ""
+        } overflow-hidden flex justify-center items-center max-md:w-24 max-md:h-24 h-40 w-40 shadow-lg hower:shadow-xl hover:transform hover:scale-105 rounded bg-white duration-300 hover:cursor-pointer`}
       >
-        <div className="h-36 overflow-hidden">
-          <img
-            src={`src/assets/${getRandom()}.png`}
-            alt="card-image"
-            className="h-full w-full object-fit"
-          />
-        </div>
+        <img
+          src={`src/assets/${getRandom()}.png`}
+          alt="card-image"
+          className="h-28 max-md:h-14 object-fit"
+        />
       </div>
-      <div className="p-4 text-[#7D849A]">
-        <p className={`${isActive ? "text-orange-400" : ""}  font-medium`}>
-          {name}
-        </p>
-      </div>
+      <p className="text-center mt-1 text-slate-700 max-md:text-sm">{name}</p>
     </div>
   );
 };

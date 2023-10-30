@@ -69,23 +69,23 @@ const Home: React.FC = () => {
   return (
     <div className="container mx-auto">
       {/* Popular Categories */}
-      <div className="m-auto my-10">
+      <div className="m-auto my-5 mx-4">
         <div className="relative">
           <button
             onClick={scrollLeft}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-100 p-1 rounded-full bg-gray-300"
+            className="absolute max-sm:hidden left-0 top-1/2 transform -translate-y-1/2 bg-gray-100 p-1 rounded-full bg-gray-300 z-10"
           >
             {"<"}
           </button>
           <button
             onClick={scrollRight}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-100 p-1 rounded-full bg-gray-300"
+            className="absolute max-sm:hidden right-0 top-1/2 transform -translate-y-1/2 bg-gray-100 p-1 rounded-full bg-gray-300 z-10"
           >
             {">"}
           </button>
           <div
             ref={containerRef}
-            className="flex gap-3 overflow-x-auto whitespace-nowrap"
+            className="flex gap-2 overflow-x-auto whitespace-nowrap"
           >
             {(isLoading ? [...Array(10)] : categories).map(
               (category: ICategory, index: number) =>
@@ -110,8 +110,8 @@ const Home: React.FC = () => {
       </div>
 
       {/* Hot Offers */}
-      <div className="my-8 mx-2">
-        <div className="flex gap-3 overflow-x-scroll whitespace-nowrap">
+      <div className="mb-5 mx-2">
+        <div className="flex gap-3 overflow-x-scroll">
           {[...Array(3)].map((_, index: number) => (
             <div key={index}>
               <OffersCard />
