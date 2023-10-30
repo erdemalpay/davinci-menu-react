@@ -69,7 +69,7 @@ const Home: React.FC = () => {
   return (
     <div className="container mx-auto">
       {/* Popular Categories */}
-      <div className="m-auto my-5 mx-4">
+      <div className="m-auto my-5 max-md:mx-4">
         <div className="relative">
           <button
             onClick={scrollLeft}
@@ -83,9 +83,10 @@ const Home: React.FC = () => {
           >
             {">"}
           </button>
+
           <div
             ref={containerRef}
-            className="flex gap-2 overflow-x-auto whitespace-nowrap"
+            className="flex max-md:gap-2 gap-3 overflow-x-auto"
           >
             {(isLoading ? [...Array(10)] : categories).map(
               (category: ICategory, index: number) =>
@@ -110,7 +111,7 @@ const Home: React.FC = () => {
       </div>
 
       {/* Hot Offers */}
-      <div className="mb-5 mx-2">
+      <div className="mb-5 max-md:mx-4">
         <div className="flex gap-3 overflow-x-scroll">
           {[...Array(3)].map((_, index: number) => (
             <div key={index}>
@@ -122,9 +123,9 @@ const Home: React.FC = () => {
 
       {/* Popular Items */}
 
-      <div>
-        <div className=" flex justify-between ">
-          <div className="text-xl font-bold">
+      <div className="mt-5">
+        <div className=" flex justify-between">
+          <div className="text-3xl font-bold">
             {activeCategory ? activeCategory.name : "Popular"}
           </div>
           {activeCategory && (
@@ -137,7 +138,7 @@ const Home: React.FC = () => {
           )}
         </div>
 
-        <div className="grid gap-3 my-4 mx-2 lg:grid-cols-2 justify-center">
+        <div className="grid my-5 gap-3 max-md:mx-4 md:grid-cols-2 lg:grid-cols-3 justify-center">
           {(isMenuLoading
             ? [...Array(12)]
             : activeCategory
