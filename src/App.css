@@ -5,3 +5,10 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+.category .left-icon {
+  left: -20px !important;
+}
+
+.category .right-icon {
+  right: -20px !important;
+}

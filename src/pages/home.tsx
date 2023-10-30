@@ -70,18 +70,22 @@ const Home: React.FC = () => {
     <div className="container mx-auto">
       {/* Popular Categories */}
       <div className="m-auto my-5 max-md:mx-4">
-        <div className="relative">
+        <div className="relative category">
           <button
             onClick={scrollLeft}
-            className="absolute max-sm:hidden left-0 top-1/2 transform -translate-y-1/2 bg-gray-100 p-1 rounded-full bg-gray-300 z-10"
+            className="absolute max-sm:hidden left-icon top-1/2 transform -translate-y-1/2  p-1 rounded-full bg-gray-300 z-10"
           >
-            {"<"}
+            <img
+              src="src/assets/next-16.png"
+              className="h-5 w-5 rotate-180"
+              alt=""
+            />
           </button>
           <button
             onClick={scrollRight}
-            className="absolute max-sm:hidden right-0 top-1/2 transform -translate-y-1/2 bg-gray-100 p-1 rounded-full bg-gray-300 z-10"
+            className="absolute max-sm:hidden right-icon top-1/2 transform -translate-y-1/2  p-1 rounded-full bg-gray-300 z-10"
           >
-            {">"}
+            <img src="src/assets/next-16.png" className="h-5 w-5" alt="" />
           </button>
 
           <div
@@ -112,7 +116,8 @@ const Home: React.FC = () => {
 
       {/* Hot Offers */}
       <div className="mb-5 max-md:mx-4">
-        <div className="flex gap-3 overflow-x-scroll">
+        <h1 className="text-3xl font-bold mb-3">Hot Offers</h1>
+        <div className="flex gap-3 overflow-x-auto">
           {[...Array(3)].map((_, index: number) => (
             <div key={index}>
               <OffersCard />
@@ -125,9 +130,9 @@ const Home: React.FC = () => {
 
       <div className="mt-5">
         <div className=" flex justify-between">
-          <div className="text-3xl font-bold">
+          <h1 className="text-3xl px-3 font-bold">
             {activeCategory ? activeCategory.name : "Popular"}
-          </div>
+          </h1>
           {activeCategory && (
             <div
               onClick={() => setActiveCategory(null)}
