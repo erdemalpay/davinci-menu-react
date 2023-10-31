@@ -69,7 +69,7 @@ const Home: React.FC = () => {
   return (
     <div className="container mx-auto">
       {/* Popular Categories */}
-      <div className="m-auto my-5 max-md:mx-4">
+      <div className="m-auto mt-5 max-md:mx-4">
         <div className="relative category">
           <button
             onClick={scrollLeft}
@@ -115,8 +115,8 @@ const Home: React.FC = () => {
       </div>
 
       {/* Hot Offers */}
-      <div className="mb-5 max-md:mx-4">
-        <h1 className="text-3xl font-bold mb-3">Hot Offers</h1>
+      <div className="mt-0 max-md:mx-4">
+        <h1 className="text-xl font-bold mb-3">Hot Offers</h1>
         <div className="flex gap-3 overflow-x-auto">
           {[...Array(3)].map((_, index: number) => (
             <div key={index}>
@@ -128,9 +128,9 @@ const Home: React.FC = () => {
 
       {/* Popular Items */}
 
-      <div className="mt-5">
+      <div className="mt-7">
         <div className=" flex justify-between">
-          <h1 className="text-3xl px-3 font-bold">
+          <h1 className="text-xl px-3 font-bold">
             {activeCategory ? activeCategory.name : "Popular"}
           </h1>
           {activeCategory && (

@@ -16,13 +16,11 @@ const ProductCard = ({ product }: IProps) => {
           alt="image-s"
         />
 
-        <div className="max-md:px-1 max-md:py-1 px-2 py-3  flex-1">
-          <p className="leading-none tracking-wide text-md fontbold text-orange-500">
-            {name}
-          </p>
-          <p className="text-gray-500 max-md:text-md"> {category?.name} </p>
+        <div className="max-md:px-1 max-md:py-2 font-medium  px-2 py-3  flex-1">
+          <p className="leading-none tracking-wide text-lg fontbold">{name}</p>
+          <p className="text-gray-500 max-md:text-base"> {category?.name} </p>
 
-          <p className="mt-1 max-md:text-sm text-gray-500 leading-none">
+          <p className="mt-1 max-md:text-base text-gray-500 leading-none">
             tiramisu under desserts (Tatlilar)
           </p>
 
