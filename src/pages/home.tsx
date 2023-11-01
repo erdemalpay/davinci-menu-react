@@ -1,13 +1,21 @@
 import React, { useRef, useState } from "react";
-import CategoryCard from "../components/CategoryCard";
+
+//apis
+import { useQuery } from "react-query";
 import { getCategories, getMenuItems } from "../common/apis";
+
+//@types
 import { ICategory, IMenuItem } from "../common/types";
+
+//components
+import OffersCard from "../components/OffersCard";
+import CategoryCard from "../components/CategoryCard";
 import ProductCard from "../components/ProductCard";
 import ProductCardSkeleton from "../components/skeleton/ProductCardSkeleton";
 import Nodata from "../components/Nodata";
 import CategoryCardSkeleton from "../components/skeleton/CategoryCardSkeleton";
-import { useQuery } from "react-query";
-import OffersCard from "../components/OffersCard";
+
+//-----------------------------------------------------------------------------
 
 const Home: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);

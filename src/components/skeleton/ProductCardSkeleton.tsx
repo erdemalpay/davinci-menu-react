@@ -2,7 +2,7 @@ const ProductCardSkeleton = () => {
   return (
     <div className="border border-gray-300 shadow bg-white rounded shadow-md  ">
       <div className="animate-pulse flex  w-full">
-        <div className="rounded max-md:w-32 w-36 max-md:h-32 h-36 bg-slate-300 w-full"></div>
+        <div className="rounded max-md:w-32 w-36 max-md:h-32 h-36 bg-slate-300 "></div>
 
         <div className="max-md:px-1 max-md:py-1 px-2 py-3  flex-1 max-md:w-56">
           <div>

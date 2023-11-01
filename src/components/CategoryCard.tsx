@@ -17,7 +17,7 @@ const CategoryCard = ({ Category, isActive }: IProps) => {
       <div
         className={`${
           isActive ? "bg-yellow-400" : ""
-        } overflow-hidden flex justify-center items-center max-md:w-24 max-md:h-24 h-36 w-36 shadow hower:shadow-xl hover:transform hover:scale-105 rounded bg-white duration-300 hover:cursor-pointer`}
+        } flex justify-center items-center max-md:w-24 max-md:h-24 h-36 w-36 shadow hower:shadow-xl hover:transform hover:scale-105 rounded-xl bg-white duration-300 hover:cursor-pointer`}
       >
         <img
           src={`src/assets/${getRandom()}.png`}
