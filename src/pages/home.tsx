@@ -88,7 +88,7 @@ const Home: React.FC = () => {
               className="absolute max-sm:hidden left-icon top-1/2 transform -translate-y-1/2  p-1 rounded-full bg-gray-300 z-10"
             >
               <img
-                src="src/assets/next-16.png"
+                src="./assets/next-16.png"
                 className="h-5 w-5 rotate-180"
                 alt=""
               />
@@ -97,7 +97,7 @@ const Home: React.FC = () => {
               onClick={scrollRight}
               className="absolute max-sm:hidden right-icon top-1/2 transform -translate-y-1/2  p-1 rounded-full bg-gray-300 z-10"
             >
-              <img src="src/assets/next-16.png" className="h-5 w-5" alt="" />
+              <img src="./assets/next-16.png" className="h-5 w-5" alt="" />
             </button>
 
             <div

@@ -20,7 +20,7 @@ const CategoryCard = ({ Category, isActive }: IProps) => {
         } flex justify-center items-center max-md:w-24 max-md:h-24 h-36 w-36 shadow hower:shadow-xl hover:transform hover:scale-105 rounded-xl bg-white duration-300 hover:cursor-pointer`}
       >
         <img
-          src={`src/assets/${getRandom()}.png`}
+          src={`./assets/${getRandom()}.png`}
           alt="card-image"
           className="h-24 max-md:h-14 object-fit"
         />
