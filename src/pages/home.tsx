@@ -32,7 +32,7 @@ const Home: React.FC = () => {
     getMenuItems,
     {
       onSuccess: (data: IMenuItem[]) => {
-        let popularItem = data.filter(
+        const popularItem = data.filter(
           (item: IMenuItem) =>
             item.category._id === 11 && item.priceNeorama !== 0
         );
