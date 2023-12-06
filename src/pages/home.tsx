@@ -130,7 +130,7 @@ const Home: React.FC = () => {
       <div className="container mt-[400px] max-md:mt-[300px]">
         {/* Hot Offers */}
         <div className="mt-0 max-md:mx-4">
-          <h1 className="text-xl font-bold mb-3">Hot Offers</h1>
+          <h1 className="text-xl font-bold mb-3">Kampanyalar</h1>
           <div className="flex gap-3 overflow-x-auto">
             {[...Array(3)].map((_, index: number) => (
               <div key={index}>
@@ -145,14 +145,14 @@ const Home: React.FC = () => {
         <div className="mt-7">
           <div className=" flex justify-between">
             <h1 className="text-xl px-3 font-bold">
-              {activeCategory ? activeCategory.name : "Popular"}
+              {activeCategory ? activeCategory.name : "Popüler"}
             </h1>
             {activeCategory && (
               <div
                 onClick={() => setActiveCategory(null)}
                 className="border px-3 py-1 bg-orange-300 rounded-lg cursor-pointer hover:bg-orange-200"
               >
-                Popular
+                Popüler
               </div>
             )}
           </div>
