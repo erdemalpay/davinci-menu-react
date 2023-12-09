@@ -108,8 +108,9 @@ const Home: React.FC = () => {
               ref={containerRef}
               className="flex max-md:gap-2 gap-3 overflow-auto"
             >
-              {(isLoading ? [...Array(10)] : categories).map(
-                (category: ICategory, index: number) =>
+              {(isLoading ? [...Array(10)] : categories)
+                .filter((category) => category.name !== "Haftanın Kampanyaları")
+                .map((category: ICategory, index: number) =>
                   category ? (
                     <div
                       key={category._id}
@@ -125,7 +126,7 @@ const Home: React.FC = () => {
                       <CategoryCardSkeleton />
                     </div>
                   )
-              )}
+                )}
             </div>
           </div>
         </div>
