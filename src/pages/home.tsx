@@ -136,7 +136,7 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      <div className="container mt-[330px] max-md:mt-[230px]">
+      <div className="container mt-[330px] max-md:mt-[250px]">
         {/* Hot Offers */}
         <div className="mt-0 max-md:mx-4">
           <h1 className="text-xl font-bold mb-3">Kampanyalar</h1>
