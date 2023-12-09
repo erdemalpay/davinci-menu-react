@@ -1,4 +1,5 @@
 import { IMenuItem } from "../common/types";
+import { NO_IMAGE_URL } from "../utils/constants";
 
 //------------------------------------------------------------------------
 interface IProps {
@@ -15,11 +16,7 @@ const ProductCard = ({ product }: IProps) => {
       <div className="flex">
         <img
           className="max-md:w-32 w-36 object-cover"
-          src={
-            imageUrl
-              ? imageUrl
-              : "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=60&w=600&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8fA%3D%3D"
-          }
+          src={imageUrl ? imageUrl : NO_IMAGE_URL}
           alt={category.name}
         />
 

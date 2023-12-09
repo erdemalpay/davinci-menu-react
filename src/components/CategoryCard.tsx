@@ -1,8 +1,5 @@
 import { ICategory } from "../common/types";
-
-function getRandom() {
-  return Math.floor(Math.random() * 3) + 1;
-}
+import { NO_IMAGE_URL } from "../utils/constants";
 
 interface IProps {
   category: ICategory;
@@ -19,7 +16,7 @@ const CategoryCard = ({ category, isActive }: IProps) => {
         }
       >
         <img
-          src={imageUrl || `./assets/${getRandom()}.png`}
+          src={imageUrl || NO_IMAGE_URL}
           alt="card-image"
           className="md:h-[134px] md:w-[134px] h-[90px] w-[90px] object-fit md:rounded-xl"
         />
