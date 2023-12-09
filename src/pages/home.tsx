@@ -55,6 +55,10 @@ const Home: React.FC = () => {
       );
       setFilterProducts(temp);
     }
+    window.scrollTo({
+      top: 0, // Scroll to the top of the window
+      behavior: "smooth", // Optional: Defines the transition animation. Remove for instant scroll
+    });
   };
 
   const scrollLeft = () => {
@@ -81,7 +85,7 @@ const Home: React.FC = () => {
         <Header />
 
         {/* Popular Categories */}
-        <div className="container py-5 max-md:pb-0 max-md:px-4 bg-[#eaf0f9]">
+        <div className="container pt-5 max-md:pb-0 max-md:px-4 bg-[#eaf0f9]">
           <div className="relative category">
             <button
               onClick={scrollLeft}
@@ -102,7 +106,7 @@ const Home: React.FC = () => {
 
             <div
               ref={containerRef}
-              className="flex max-md:gap-2 gap-3 overflow-auto "
+              className="flex max-md:gap-2 gap-3 overflow-auto"
             >
               {(isLoading ? [...Array(10)] : categories).map(
                 (category: ICategory, index: number) =>
@@ -112,7 +116,7 @@ const Home: React.FC = () => {
                       onClick={() => handleCategory(category)}
                     >
                       <CategoryCard
-                        Category={category}
+                        category={category}
                         isActive={Boolean(category._id === activeCategory?._id)}
                       />
                     </div>
@@ -127,7 +131,7 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      <div className="container mt-[400px] max-md:mt-[300px]">
+      <div className="container mt-[300px] max-md:mt-[200px]">
         {/* Hot Offers */}
         <div className="mt-0 max-md:mx-4">
           <h1 className="text-xl font-bold mb-3">Kampanyalar</h1>

@@ -23,7 +23,7 @@ const ProductCard = ({ product }: IProps) => {
           alt={category.name}
         />
 
-        <div className="max-md:px-1 max-md:py-2 font-medium  px-2 py-3 flex-1">
+        <div className="max-md:px-1 max-md:py-2 font-medium  px-2 py-3  flex-1">
           <p className="leading-none  text-lg fontbold">{name}</p>
 
           <p className="mt-1 max-md:text-base text-gray-500 leading-none">

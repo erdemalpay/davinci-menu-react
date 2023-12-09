@@ -5,22 +5,21 @@ function getRandom() {
 }
 
 interface IProps {
-  Category: ICategory;
+  category: ICategory;
   isActive?: boolean;
 }
 
-const CategoryCard = ({ Category, isActive }: IProps) => {
-  const { name } = Category;
-
+const CategoryCard = ({ category, isActive }: IProps) => {
+  const { name, imageUrl } = category;
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center mt-2">
       <div
         className={`${
-          isActive ? "bg-yellow-400" : ""
-        } flex justify-center items-center max-md:w-24 max-md:h-24 h-36 w-36 shadow hower:shadow-xl hover:transform hover:scale-105 rounded-xl bg-white duration-300 hover:cursor-pointer`}
+          isActive ? "border-4 border-rose-700 border-solid" : ""
+        } flex justify-center items-center shadow hower:shadow-xl hover:transform hover:scale-105 md:rounded-xl bg-white duration-300 hover:cursor-pointer`}
       >
         <img
-          src={`./assets/${getRandom()}.png`}
+          src={imageUrl || `./assets/${getRandom()}.png`}
           alt="card-image"
           className="h-24 max-md:h-14 object-fit"
         />
