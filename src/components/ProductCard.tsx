@@ -4,12 +4,14 @@ import { NO_IMAGE_URL } from "../utils/constants";
 //------------------------------------------------------------------------
 interface IProps {
   product: IMenuItem;
+  param: number;
 }
 
 //--------------------------------------------------------------------------
 
-const ProductCard = ({ product }: IProps) => {
-  const { name, category, priceNeorama, description, imageUrl } = product;
+const ProductCard = ({ product, param }: IProps) => {
+  const { name, category, priceNeorama, priceBahceli, description, imageUrl } =
+    product;
 
   return (
     <div className="bg-white rounded shadow-md overflow-hidden ">
@@ -24,14 +26,21 @@ const ProductCard = ({ product }: IProps) => {
           <p className="leading-none  text-lg fontbold">{name}</p>
 
           <p className="mt-1 max-md:text-base text-gray-500 leading-none">
-            {description ? description : "Menu  Item descriptions"}
+            {!description || description === "-" ? "" : description}
           </p>
 
           <div className="max-md:mt-8 mt-12 text-end ">
-            <p className="text-md font-bold">
-              <span>Fiyat: </span>
-              <span className="text-gray-500"> ₺ {priceNeorama}</span>
-            </p>
+            {param ? (
+              <p className="text-md font-bold">
+                <span>Fiyat: </span>
+                <span className="text-gray-500">
+                  {" "}
+                  ₺ {param === 1 ? priceBahceli : priceNeorama}
+                </span>
+              </p>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>

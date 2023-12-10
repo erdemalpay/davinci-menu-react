@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 //apis
 import { useQuery } from "react-query";
@@ -27,6 +27,8 @@ const Home: React.FC = () => {
 
   const [activeCategory, setActiveCategory] = useState<ICategory | null>(null);
 
+  const [param, setParam] = useState<number>(0);
+
   const { isLoading: isMenuLoading, data: menuItems = [] } = useQuery(
     "menuItem",
     getMenuItems,
@@ -51,7 +53,9 @@ const Home: React.FC = () => {
     if (menuItems) {
       const temp = menuItems.filter(
         (item: IMenuItem) =>
-          item.category._id === category._id && item.priceNeorama !== 0
+          item.category._id === category._id &&
+          ((param === 1 && item.priceBahceli !== 0) ||
+            (param === 2 && item.priceNeorama !== 0))
       );
       setFilterProducts(temp);
     }
@@ -78,6 +82,17 @@ const Home: React.FC = () => {
       });
     }
   };
+
+  useEffect(() => {
+    // Extracting the last segment of the URL path
+    const pathSegments = window.location.pathname.split("/");
+    const lastSegment = pathSegments.pop() || pathSegments.pop(); // Handle trailing slash
+
+    // Check if the last segment is a valid parameter and set it
+    if (lastSegment && !isNaN(Number(lastSegment))) {
+      setParam(Number(lastSegment));
+    }
+  }, []);
 
   return (
     <div className=" mx-auto">
@@ -175,7 +190,7 @@ const Home: React.FC = () => {
             ).map((product: IMenuItem, index: number) =>
               product ? (
                 <div key={product._id}>
-                  <ProductCard product={product} />
+                  <ProductCard product={product} param={param} />
                 </div>
               ) : (
                 <div key={index}>
