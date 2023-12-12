@@ -8,7 +8,7 @@ import { getCategories, getMenuItems } from "../common/apis";
 import { ICategory, IMenuItem } from "../common/types";
 
 //components
-import OffersCard from "../components/OffersCard";
+// import OffersCard from "../components/OffersCard";
 import CategoryCard from "../components/CategoryCard";
 import ProductCard from "../components/ProductCard";
 import ProductCardSkeleton from "../components/skeleton/ProductCardSkeleton";
@@ -153,7 +153,7 @@ const Home: React.FC = () => {
 
       <div className="container mt-[360px] max-md:mt-[300px]">
         {/* Hot Offers */}
-        <div className="mt-0 max-md:mx-4">
+        {/* <div className="mt-0 max-md:mx-4">
           <h1 className="text-xl font-bold mb-3">Kampanyalar</h1>
           <div className="flex gap-3 overflow-x-auto">
             {[...Array(3)].map((_, index: number) => (
@@ -162,7 +162,7 @@ const Home: React.FC = () => {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* Popular Items */}
 
