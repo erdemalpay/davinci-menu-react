@@ -123,29 +123,27 @@ const Home: React.FC = () => {
               ref={containerRef}
               className="flex max-md:gap-2 gap-3 overflow-auto"
             >
-              {(isLoading
-                ? [...Array(10)]
-                : categories.filter(
+              {(isLoading ? [...Array(10)] : categories) /* .filter(
                     (category) =>
                       category && category.name !== "Haftanın Kampanyaları"
+                  ) */
+                .map((category: ICategory, index: number) =>
+                  category ? (
+                    <div
+                      key={category._id}
+                      onClick={() => handleCategory(category)}
+                    >
+                      <CategoryCard
+                        category={category}
+                        isActive={Boolean(category._id === activeCategory?._id)}
+                      />
+                    </div>
+                  ) : (
+                    <div key={index}>
+                      <CategoryCardSkeleton />
+                    </div>
                   )
-              ).map((category: ICategory, index: number) =>
-                category ? (
-                  <div
-                    key={category._id}
-                    onClick={() => handleCategory(category)}
-                  >
-                    <CategoryCard
-                      category={category}
-                      isActive={Boolean(category._id === activeCategory?._id)}
-                    />
-                  </div>
-                ) : (
-                  <div key={index}>
-                    <CategoryCardSkeleton />
-                  </div>
-                )
-              )}
+                )}
             </div>
           </div>
         </div>
