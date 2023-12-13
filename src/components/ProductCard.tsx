@@ -25,7 +25,7 @@ const ProductCard = ({ product, param }: IProps) => {
         <div className="max-md:px-1 max-md:py-2 max-h-32 font-medium px-2 py-3 flex-1">
           <p className="leading-none  text-lg fontbold">{name}</p>
 
-          <p className="mt-1 max-md:text-xs text-gray-500 leading-none">
+          <p className="mt-1 text-xs text-gray-500 leading-none">
             {!description || description === "-" ? "" : description}
           </p>
 
