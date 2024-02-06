@@ -164,8 +164,8 @@ const Home: React.FC = () => {
 
         {/* Popular Items */}
 
-        <div className="mt-7">
-          <div className=" flex justify-between">
+        <div className="pt-6 sm:pt-12">
+          <div className=" flex justify-between px-4 md:px-0">
             <h1 className="text-xl px-3 font-bold">
               {activeCategory ? activeCategory.name : "Popüler"}
             </h1>
