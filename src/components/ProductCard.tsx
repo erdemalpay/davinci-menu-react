@@ -14,34 +14,27 @@ const ProductCard = ({ product, param }: IProps) => {
     product;
 
   return (
-    <div className="bg-white rounded shadow-md overflow-hidden ">
-      <div className="flex">
+    <div className="bg-white rounded-md shadow-md overflow-hidden ">
+      <div className="flex flex-row gap-2">
         <img
           className="max-md:w-32 w-36 object-cover"
           src={imageUrl ? imageUrl : NO_IMAGE_URL}
           alt={category.name}
         />
-
-        <div className="max-md:px-1 max-md:py-2 max-h-32 font-medium px-2 py-3 flex-1">
-          <p className="leading-none  text-lg fontbold">{name}</p>
-
-          <p className="mt-1 text-xs text-gray-500 leading-none">
-            {!description || description === "-" ? "" : description}
-          </p>
-
-          <div className="max-md:mt-8 mt-12 text-end ">
-            {param ? (
-              <p className="text-md font-bold">
-                <span>Fiyat: </span>
-                <span className="text-gray-500">
-                  {" "}
-                  ₺ {param === 1 ? priceBahceli : priceNeorama}
-                </span>
-              </p>
-            ) : (
-              ""
-            )}
+        <div className="flex flex-col justify-between py-3 w-full px-1">
+          <div className="flex flex-col gap-2">
+            <h1 className="leading-none text-lg font-semibold">{name}</h1>
+            <p className=" text-xs text-gray-500 leading-none font-medium">
+              {!description || description === "-" ? "" : description}
+            </p>
           </div>
+          {param && (
+            <p className="font-bold ml-auto px-2 ">
+              <span className="text-gray-500">
+                ₺ {param === 1 ? priceBahceli : priceNeorama}
+              </span>
+            </p>
+          )}
         </div>
       </div>
     </div>
