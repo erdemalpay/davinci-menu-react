@@ -38,6 +38,7 @@ const Home: React.FC = () => {
           (item: IMenuItem) =>
             item.category._id === 11 && item.priceNeorama !== 0
         );
+
         setPopularProducts(popularItem);
       },
     }
@@ -51,12 +52,14 @@ const Home: React.FC = () => {
   const handleCategory = (category: ICategory) => {
     setActiveCategory(category);
     if (menuItems) {
-      const temp = menuItems.filter(
-        (item: IMenuItem) =>
-          item.category._id === category._id &&
-          ((param === 1 && item.priceBahceli !== 0) ||
-            (param === 2 && item.priceNeorama !== 0))
-      );
+      const temp = menuItems
+        .filter(
+          (item: IMenuItem) =>
+            item.category._id === category._id &&
+            ((param === 1 && item.priceBahceli !== 0) ||
+              (param === 2 && item.priceNeorama !== 0))
+        )
+        .sort((a, b) => a.order - b.order);
       setFilterProducts(temp);
     }
     window.scrollTo({
