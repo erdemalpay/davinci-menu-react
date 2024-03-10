@@ -1,6 +1,7 @@
 export interface IMenuItem {
   _id: number;
   name: string;
+  order: number;
   priceNeorama: number;
   priceBahceli: number;
   description: string;
