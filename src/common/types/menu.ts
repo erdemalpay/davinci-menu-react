@@ -13,3 +13,8 @@ export interface IMenuItem {
     __v: number;
   };
 }
+export interface IMenuPopularItem {
+  _id: number;
+  item: IMenuItem;
+  order: number;
+}
