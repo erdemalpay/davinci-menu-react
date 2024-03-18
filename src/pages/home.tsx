@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 //apis
 import { useQuery } from "react-query";
-import { getCategories, getMenuItems } from "../common/apis";
+import { getCategories, getMenuItems, getPopularItems } from "../common/apis";
 
 //@types
 import { ICategory, IMenuItem } from "../common/types";
@@ -21,28 +21,18 @@ import Header from "../components/Header";
 const Home: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [popularProducts, setPopularProducts] = useState<IMenuItem[]>([]);
-
   const [filterProducts, setFilterProducts] = useState<IMenuItem[]>([]);
 
   const [activeCategory, setActiveCategory] = useState<ICategory | null>(null);
 
   const [param, setParam] = useState<number>(0);
-
+  const popularCategory = { _id: 999999999, name: "Popüler", order: 0 };
   const { isLoading: isMenuLoading, data: menuItems = [] } = useQuery(
     "menuItem",
-    getMenuItems,
-    {
-      onSuccess: (data: IMenuItem[]) => {
-        const popularItem = data.filter(
-          (item: IMenuItem) =>
-            item.category._id === 11 && item.priceNeorama !== 0
-        );
-
-        setPopularProducts(popularItem);
-      },
-    }
+    getMenuItems
   );
+  const { isLoading: isPopularItemsLoading, data: popularItems = [] } =
+    useQuery("popularItems", getPopularItems);
 
   const { isLoading, data: categories = [] } = useQuery(
     "categories",
@@ -57,10 +47,14 @@ const Home: React.FC = () => {
           (item: IMenuItem) =>
             item.category._id === category._id &&
             ((param === 1 && item.priceBahceli !== 0) ||
+              (param === 0 && item.priceNeorama !== 0) ||
               (param === 2 && item.priceNeorama !== 0))
         )
         .sort((a, b) => a.order - b.order);
       setFilterProducts(temp);
+      if (category === popularCategory) {
+        setFilterProducts(popularItems.map((popularItem) => popularItem.item));
+      }
     }
     window.scrollTo({
       top: 0, // Scroll to the top of the window
@@ -126,7 +120,10 @@ const Home: React.FC = () => {
               ref={containerRef}
               className="flex max-md:gap-2 gap-3 overflow-auto"
             >
-              {(isLoading ? [...Array(10)] : categories) /* .filter(
+              {(isLoading
+                ? [...Array(10)]
+                : [popularCategory, ...categories]
+              ) /* .filter(
                     (category) =>
                       category && category.name !== "Haftanın Kampanyaları"
                   ) */
@@ -170,11 +167,11 @@ const Home: React.FC = () => {
         <div className="pt-6 sm:pt-12">
           <div className=" flex justify-between px-4 md:px-0">
             <h1 className="text-xl px-3 font-bold">
-              {activeCategory ? activeCategory.name : "Popüler"}
+              {activeCategory && activeCategory.name}
             </h1>
-            {activeCategory && (
+            {activeCategory && activeCategory.name !== popularCategory.name && (
               <div
-                onClick={() => setActiveCategory(null)}
+                onClick={() => handleCategory(popularCategory)}
                 className="border px-3 py-1 bg-orange-300 rounded-lg cursor-pointer hover:bg-orange-200"
               >
                 Popüler
@@ -183,27 +180,26 @@ const Home: React.FC = () => {
           </div>
 
           <div className="grid my-5 gap-3 max-md:mx-4 md:grid-cols-2 lg:grid-cols-3 justify-center max-md:justify-normal">
-            {(isMenuLoading
-              ? [...Array(12)]
-              : activeCategory
-              ? filterProducts
-              : popularProducts
-            ).map((product: IMenuItem, index: number) =>
-              product ? (
-                <div key={product._id}>
-                  <ProductCard product={product} param={param} />
-                </div>
-              ) : (
-                <div key={index}>
-                  <ProductCardSkeleton />
-                </div>
+            {isMenuLoading || isPopularItemsLoading ? (
+              [...Array(12)]
+            ) : activeCategory ? (
+              filterProducts.map((product: IMenuItem, index: number) =>
+                product ? (
+                  <div key={product._id}>
+                    <ProductCard product={product} param={param} />
+                  </div>
+                ) : (
+                  <div key={index}>
+                    <ProductCardSkeleton />
+                  </div>
+                )
               )
+            ) : (
+              <Nodata />
             )}
           </div>
 
-          {popularProducts.length === 0 && filterProducts.length === 0 && (
-            <Nodata />
-          )}
+          {filterProducts.length === 0 && <Nodata />}
         </div>
       </div>
     </div>
