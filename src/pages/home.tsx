@@ -181,7 +181,7 @@ const Home: React.FC = () => {
           </div>
 
           <div className="grid my-5 gap-3 max-md:mx-4 md:grid-cols-2 lg:grid-cols-3 justify-center max-md:justify-normal">
-            {isMenuLoading || isPopularItemsLoading
+            {isMenuLoading
               ? [...Array(12)]
               : activeCategory
               ? filterProducts.map(
