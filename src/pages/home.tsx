@@ -15,19 +15,18 @@ import ProductCardSkeleton from "../components/skeleton/ProductCardSkeleton";
 import Nodata from "../components/Nodata";
 import CategoryCardSkeleton from "../components/skeleton/CategoryCardSkeleton";
 import Header from "../components/Header";
-import { IMenuPopularItem } from "../common/types/menu";
 
 //-----------------------------------------------------------------------------
 
 const Home: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const popularCategory = { _id: 999999999, name: "Popüler", order: 0 };
 
   const [filterProducts, setFilterProducts] = useState<IMenuItem[]>([]);
 
   const [activeCategory, setActiveCategory] = useState<ICategory | null>(null);
 
   const [param, setParam] = useState<number>(0);
+  const popularCategory = { _id: 999999999, name: "Popüler", order: 0 };
   const { isLoading: isMenuLoading, data: menuItems = [] } = useQuery(
     "menuItem",
     getMenuItems
@@ -91,6 +90,10 @@ const Home: React.FC = () => {
       setParam(Number(lastSegment));
     }
   }, []);
+
+  useEffect(() => {
+    handleCategory(popularCategory);
+  }, [popularItems]);
 
   return (
     <div className=" mx-auto">
@@ -181,30 +184,26 @@ const Home: React.FC = () => {
           </div>
 
           <div className="grid my-5 gap-3 max-md:mx-4 md:grid-cols-2 lg:grid-cols-3 justify-center max-md:justify-normal">
-            {isMenuLoading
-              ? [...Array(12)]
-              : activeCategory
-              ? filterProducts.map(
-                  (product: IMenuItem, index: number) =>
-                    product && (
-                      <div key={product._id}>
-                        <ProductCard product={product} param={param} />
-                      </div>
-                    )
+            {isMenuLoading || isPopularItemsLoading ? (
+              [...Array(12)]
+            ) : activeCategory ? (
+              filterProducts.map((product: IMenuItem, index: number) =>
+                product ? (
+                  <div key={product._id}>
+                    <ProductCard product={product} param={param} />
+                  </div>
+                ) : (
+                  <div key={index}>
+                    <ProductCardSkeleton />
+                  </div>
                 )
-              : popularItems.map(
-                  (product: IMenuPopularItem, index: number) =>
-                    product && (
-                      <div key={product._id}>
-                        <ProductCard product={product.item} param={param} />
-                      </div>
-                    )
-                )}
+              )
+            ) : (
+              <></>
+            )}
           </div>
 
-          {filterProducts.length === 0 && popularItems.length === 0 && (
-            <Nodata />
-          )}
+          {filterProducts.length === 0 && <Nodata />}
         </div>
       </div>
     </div>
