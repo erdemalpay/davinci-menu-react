@@ -44,11 +44,7 @@ const Home: React.FC = () => {
     if (menuItems) {
       const temp = menuItems
         .filter(
-          (item: IMenuItem) =>
-            item.category._id === category._id &&
-            ((param === 1 && item.priceBahceli !== 0) ||
-              (param === 0 && item.priceNeorama !== 0) ||
-              (param === 2 && item.priceNeorama !== 0))
+          (item: IMenuItem) => item.category._id === category._id && item.price
         )
         .sort((a, b) => a.order - b.order);
       setFilterProducts(temp);

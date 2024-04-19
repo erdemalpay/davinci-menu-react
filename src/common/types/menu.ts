@@ -4,6 +4,8 @@ export interface IMenuItem {
   order: number;
   priceNeorama: number;
   priceBahceli: number;
+  price: number;
+  locations: number[];
   description: string;
   imageUrl: string;
   category: {

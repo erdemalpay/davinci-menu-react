@@ -9,9 +9,8 @@ interface IProps {
 
 //--------------------------------------------------------------------------
 
-const ProductCard = ({ product, param }: IProps) => {
-  const { name, category, priceNeorama, priceBahceli, description, imageUrl } =
-    product;
+const ProductCard = ({ product }: IProps) => {
+  const { name, category, price, description, imageUrl } = product;
 
   return (
     <div className="bg-white rounded-md shadow-md overflow-hidden ">
@@ -28,13 +27,11 @@ const ProductCard = ({ product, param }: IProps) => {
               {!description || description === "-" ? "" : description}
             </p>
           </div>
-          {param && (
+          {
             <p className="font-bold ml-auto px-2 ">
-              <span className="text-gray-500">
-                ₺ {param === 1 ? priceBahceli : priceNeorama}
-              </span>
+              <span className="text-gray-500">₺ {price}</span>
             </p>
-          )}
+          }
         </div>
       </div>
     </div>
