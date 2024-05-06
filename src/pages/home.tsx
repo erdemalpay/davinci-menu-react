@@ -185,9 +185,13 @@ const Home: React.FC = () => {
             ) : activeCategory ? (
               filterProducts.map((product: IMenuItem, index: number) =>
                 product ? (
-                  <div key={product._id}>
-                    <ProductCard product={product} param={param} />
-                  </div>
+                  product.locations.includes(param) || !param ? (
+                    <div key={product._id}>
+                      <ProductCard product={product} param={param} />
+                    </div>
+                  ) : (
+                    <></>
+                  )
                 ) : (
                   <div key={index}>
                     <ProductCardSkeleton />
