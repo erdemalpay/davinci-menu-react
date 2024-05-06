@@ -90,7 +90,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     handleCategory(popularCategory);
   }, [popularItems]);
-
+  console.log("filterProducts", filterProducts);
   return (
     <div className=" mx-auto">
       <div className="fixed top-0 w-full  z-1000">
