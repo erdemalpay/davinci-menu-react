@@ -3,4 +3,5 @@ export interface ICategory {
   name: string;
   order: number;
   imageUrl?: string;
+  locations: number[];
 }

@@ -26,7 +26,12 @@ const Home: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<ICategory | null>(null);
 
   const [param, setParam] = useState<number>(0);
-  const popularCategory = { _id: 999999999, name: "Popüler", order: 0 };
+  const popularCategory = {
+    _id: 999999999,
+    name: "Popüler",
+    order: 0,
+    locations: [1, 2],
+  };
   const { isLoading: isMenuLoading, data: menuItems = [] } = useQuery(
     "menuItem",
     getMenuItems
@@ -90,7 +95,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     handleCategory(popularCategory);
   }, [popularItems]);
-  console.log("filterProducts", filterProducts);
+
   return (
     <div className=" mx-auto">
       <div className="fixed top-0 w-full  z-1000">
@@ -129,15 +134,35 @@ const Home: React.FC = () => {
                   ) */
                 .map((category: ICategory, index: number) =>
                   category ? (
-                    <div
-                      key={category._id}
-                      onClick={() => handleCategory(category)}
-                    >
-                      <CategoryCard
-                        category={category}
-                        isActive={Boolean(category._id === activeCategory?._id)}
-                      />
-                    </div>
+                    param ? (
+                      category.locations.includes(param) ? (
+                        <div
+                          key={category._id}
+                          onClick={() => handleCategory(category)}
+                        >
+                          <CategoryCard
+                            category={category}
+                            isActive={Boolean(
+                              category._id === activeCategory?._id
+                            )}
+                          />
+                        </div>
+                      ) : (
+                        <></>
+                      )
+                    ) : (
+                      <div
+                        key={category._id}
+                        onClick={() => handleCategory(category)}
+                      >
+                        <CategoryCard
+                          category={category}
+                          isActive={Boolean(
+                            category._id === activeCategory?._id
+                          )}
+                        />
+                      </div>
+                    )
                   ) : (
                     <div key={index}>
                       <CategoryCardSkeleton />
