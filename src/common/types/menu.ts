@@ -12,6 +12,6 @@ export interface IMenuItem {
 }
 export interface IMenuPopularItem {
   _id: number;
-  item: IMenuItem;
+  item: number;
   order: number;
 }

@@ -54,7 +54,16 @@ const Home: React.FC = () => {
         .sort((a, b) => a.order - b.order);
       setFilterProducts(temp);
       if (category === popularCategory) {
-        setFilterProducts(popularItems.map((popularItem) => popularItem.item));
+        setFilterProducts(
+          popularItems
+            ?.map((popularItem) => {
+              const foundItem = menuItems?.find(
+                (item: IMenuItem) => item._id === popularItem.item
+              );
+              return foundItem ? foundItem : null;
+            })
+            ?.filter((item) => item !== null)
+        );
       }
     }
     window.scrollTo({
