@@ -8,12 +8,7 @@ export interface IMenuItem {
   locations: number[];
   description: string;
   imageUrl: string;
-  category: {
-    _id: number;
-    order: number;
-    name: string;
-    __v: number;
-  };
+  category: number;
 }
 export interface IMenuPopularItem {
   _id: number;

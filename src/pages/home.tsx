@@ -49,7 +49,7 @@ const Home: React.FC = () => {
     if (menuItems) {
       const temp = menuItems
         .filter(
-          (item: IMenuItem) => item.category._id === category._id && item.price
+          (item: IMenuItem) => item.category === category._id && item.price
         )
         .sort((a, b) => a.order - b.order);
       setFilterProducts(temp);
@@ -210,9 +210,13 @@ const Home: React.FC = () => {
             ) : activeCategory ? (
               filterProducts.map((product: IMenuItem, index: number) =>
                 product ? (
-                  product.locations.includes(param) || !param ? (
+                  product?.locations?.includes(param) || !param ? (
                     <div key={product._id}>
-                      <ProductCard product={product} param={param} />
+                      <ProductCard
+                        product={product}
+                        param={param}
+                        categories={categories}
+                      />
                     </div>
                   ) : (
                     <></>

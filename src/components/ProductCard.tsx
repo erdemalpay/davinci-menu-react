@@ -1,24 +1,25 @@
-import { IMenuItem } from "../common/types";
+import { IMenuItem, ICategory } from "../common/types";
 import { NO_IMAGE_URL } from "../utils/constants";
 
 //------------------------------------------------------------------------
 interface IProps {
   product: IMenuItem;
   param: number;
+  categories: ICategory[];
 }
 
 //--------------------------------------------------------------------------
 
-const ProductCard = ({ product }: IProps) => {
+const ProductCard = ({ product, categories }: IProps) => {
   const { name, category, price, description, imageUrl } = product;
-
+  const foundCategory = categories.find((cat) => cat._id === category);
   return (
     <div className="bg-white rounded-md shadow-md overflow-hidden ">
       <div className="flex flex-row gap-2">
         <img
           className="max-md:w-32 w-36 object-cover"
           src={imageUrl ? imageUrl : NO_IMAGE_URL}
-          alt={category.name}
+          alt={foundCategory?.name}
         />
         <div className="flex flex-col justify-between py-3 w-full px-1">
           <div className="flex flex-col gap-2">
