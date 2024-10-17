@@ -182,7 +182,6 @@ const Home: React.FC = () => {
           </div>
         </div>
       </div>
-
       <div className="container mt-[360px] max-md:mt-[300px]">
         {/* Hot Offers */}
         {/* <div className="mt-0 max-md:mx-4">
@@ -200,13 +199,21 @@ const Home: React.FC = () => {
 
         <div className="pt-6 sm:pt-12">
           <div className=" flex justify-between px-4 md:px-0">
-            <h1 className="text-xl px-3 font-bold">
-              {activeCategory && activeCategory.name}
-            </h1>
+            <div className="flex flex-col gap-2 ">
+              <h1 className="text-xl font-bold">
+                {activeCategory && activeCategory.name}
+              </h1>
+              <p className="text-xs text-gray-700">
+                * Siparişinizi seçtikten sonra, masadaki çağrı butonlarını
+                kullanarak sipariş verebilirsiniz. Yemek siparişlerinin servis
+                süresi yaklaşık 35-45 dakika sürmektedir.
+              </p>
+            </div>
+
             {activeCategory && activeCategory.name !== popularCategory.name && (
               <div
                 onClick={() => handleCategory(popularCategory)}
-                className="border px-3 py-1 bg-orange-300 rounded-lg cursor-pointer hover:bg-orange-200"
+                className="border px-3 py-1 bg-orange-300 rounded-lg cursor-pointer hover:bg-orange-200 w-fit h-fit "
               >
                 Popüler
               </div>
