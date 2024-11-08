@@ -22,16 +22,18 @@ const Home: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [filterProducts, setFilterProducts] = useState<IMenuItem[]>([]);
-
-  const [activeCategory, setActiveCategory] = useState<ICategory | null>(null);
-
-  const [param, setParam] = useState<number>(0);
   const popularCategory = {
     _id: 999999999,
     name: "Popüler",
     order: 0,
     locations: [1, 2],
   };
+  const [activeCategory, setActiveCategory] = useState<ICategory | null>(
+    popularCategory
+  );
+
+  const [param, setParam] = useState<number>(0);
+
   const { isLoading: isMenuLoading, data: menuItems = [] } = useQuery(
     "menuItem",
     getMenuItems
