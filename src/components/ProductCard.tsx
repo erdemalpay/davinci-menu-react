@@ -11,14 +11,14 @@ interface IProps {
 //--------------------------------------------------------------------------
 
 const ProductCard = ({ product, categories }: IProps) => {
-  const { name, category, price, description, imageUrl } = product;
+  const { name, category, price, description, imageUrl, showInMenu } = product;
   const foundCategory = categories.find((cat) => cat._id === category);
   return (
     <div className="bg-white rounded-md shadow-md overflow-hidden ">
       <div className="flex flex-row gap-2">
         <img
-          className="max-md:w-32 w-36 object-cover"
-          src={imageUrl ? imageUrl : NO_IMAGE_URL}
+          className="max-md:w-32 w-36 h-36 object-cover"
+          src={imageUrl && imageUrl !== "" ? imageUrl : NO_IMAGE_URL}
           alt={foundCategory?.name}
         />
         <div className="flex flex-col justify-between py-3 w-full px-1">

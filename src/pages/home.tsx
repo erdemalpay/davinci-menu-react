@@ -51,7 +51,8 @@ const Home: React.FC = () => {
     if (menuItems) {
       const temp = menuItems
         .filter(
-          (item: IMenuItem) => item.category === category._id && item.price
+          (item: IMenuItem) =>
+            item.category === category._id && item.price && item.showInMenu
         )
         .sort((a, b) => a.order - b.order);
       setFilterProducts(temp);
@@ -59,12 +60,12 @@ const Home: React.FC = () => {
         setFilterProducts(
           popularItems
             ?.map((popularItem) => {
-              const foundItem = menuItems?.find(
-                (item: IMenuItem) => item._id === popularItem.item
-              );
+              const foundItem = menuItems?.find((item: IMenuItem) => {
+                return item._id === popularItem.item && item.showInMenu;
+              });
               return foundItem ? foundItem : null;
             })
-            ?.filter((item) => item !== null)
+            ?.filter((item) => item !== null) as IMenuItem[]
         );
       }
     }
