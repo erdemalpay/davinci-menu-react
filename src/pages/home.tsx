@@ -61,7 +61,7 @@ const Home: React.FC = () => {
           popularItems
             ?.map((popularItem) => {
               const foundItem = menuItems?.find((item: IMenuItem) => {
-                return item._id === popularItem.item && item.showInMenu;
+                item._id === popularItem.item && item.showInMenu;
               });
               return foundItem ? foundItem : null;
             })

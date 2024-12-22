@@ -11,7 +11,7 @@ interface IProps {
 //--------------------------------------------------------------------------
 
 const ProductCard = ({ product, categories }: IProps) => {
-  const { name, category, price, description, imageUrl, showInMenu } = product;
+  const { name, category, price, description, imageUrl } = product;
   const foundCategory = categories.find((cat) => cat._id === category);
   return (
     <div className="bg-white rounded-md shadow-md overflow-hidden ">
