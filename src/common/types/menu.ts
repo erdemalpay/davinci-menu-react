@@ -9,6 +9,7 @@ export interface IMenuItem {
   description: string;
   imageUrl: string;
   category: number;
+  shownInMenu: boolean;
 }
 export interface IMenuPopularItem {
   _id: number;
