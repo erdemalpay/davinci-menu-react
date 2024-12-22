@@ -50,7 +50,6 @@ const Home: React.FC = () => {
     setActiveCategory(category);
 
     if (menuItems) {
-      console.log("menuItems", menuItems);
       const temp = menuItems
         .filter(
           (item: IMenuItem) =>
@@ -63,7 +62,7 @@ const Home: React.FC = () => {
           popularItems
             ?.map((popularItem) => {
               const foundItem = menuItems?.find((item: IMenuItem) => {
-                item._id === popularItem.item && item.shownInMenu;
+                return item._id === popularItem.item && item.shownInMenu;
               });
               return foundItem ? foundItem : null;
             })
