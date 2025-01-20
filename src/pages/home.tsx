@@ -27,6 +27,8 @@ const Home: React.FC = () => {
     name: "Popüler",
     order: 0,
     locations: [1, 2],
+    imageUrl:
+      "https://res.cloudinary.com/dvbg/image/upload/v1737340967/menu/DALL%C3%82%C2%B7E%202025-01-19%2020.41.26%20-%20A%20visual%20design%20for%20a%20menu%20category%20icon%20featuring%20the%20word%20%27Popu%C3%8C%C2%88ler%27%20centered%20and%20surrounded%20by%20artistic%20illustrations%20of%20various%20foods%20such%20as%20gourm.png.webp",
   };
   const [activeCategory, setActiveCategory] = useState<ICategory | null>(
     popularCategory
