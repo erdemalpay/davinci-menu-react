@@ -10,18 +10,18 @@ import { ICategory, IMenuItem } from "../common/types";
 //components
 // import OffersCard from "../components/OffersCard";
 import CategoryCard from "../components/CategoryCard";
-import ProductCard from "../components/ProductCard";
-import ProductCardSkeleton from "../components/skeleton/ProductCardSkeleton";
-import Nodata from "../components/Nodata";
-import CategoryCardSkeleton from "../components/skeleton/CategoryCardSkeleton";
 import Header from "../components/Header";
+import LocationSelectModal from "../components/LocationSelectModal";
+import Nodata from "../components/Nodata";
+import ProductCard from "../components/ProductCard";
+import CategoryCardSkeleton from "../components/skeleton/CategoryCardSkeleton";
+import ProductCardSkeleton from "../components/skeleton/ProductCardSkeleton";
 
 //-----------------------------------------------------------------------------
 
 const Home: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [filterProducts, setFilterProducts] = useState<IMenuItem[]>([]);
   const popularCategory = {
     _id: 999999999,
     name: "Popüler",
@@ -35,7 +35,8 @@ const Home: React.FC = () => {
   );
 
   const [param, setParam] = useState<number>(0);
-
+  const [isLocationSelectModalOpen, setIsLocationSelectModalOpen] =
+    useState(false);
   const { isLoading: isMenuLoading, data: menuItems = [] } = useQuery(
     "menuItem",
     getMenuItems
@@ -43,6 +44,16 @@ const Home: React.FC = () => {
   const { isLoading: isPopularItemsLoading, data: popularItems = [] } =
     useQuery("popularItems", getPopularItems);
 
+  const [filterProducts, setFilterProducts] = useState<IMenuItem[]>(
+    popularItems
+      ?.map((popularItem) => {
+        const foundItem = menuItems?.find((item: IMenuItem) => {
+          return item._id === popularItem.item && item.shownInMenu;
+        });
+        return foundItem ? foundItem : null;
+      })
+      ?.filter((item) => item !== null) as IMenuItem[]
+  );
   const { isLoading, data: categories = [] } = useQuery(
     "categories",
     getCategories
@@ -104,12 +115,19 @@ const Home: React.FC = () => {
     // Check if the last segment is a valid parameter and set it
     if (lastSegment && !isNaN(Number(lastSegment))) {
       setParam(Number(lastSegment));
+    } else {
+      setIsLocationSelectModalOpen(true);
     }
   }, []);
-
   useEffect(() => {
-    handleCategory(popularCategory);
-  }, [popularItems]);
+    setActiveCategory(popularCategory);
+
+    const items = popularItems
+      .map((pi) => menuItems.find((mi) => mi._id === pi.item && mi.shownInMenu))
+      .filter((x): x is IMenuItem => x != null);
+
+    setFilterProducts(items);
+  }, [param, menuItems, popularItems]);
 
   return (
     <div className=" mx-auto">
@@ -226,13 +244,16 @@ const Home: React.FC = () => {
             )}
           </div>
 
-          <div className="grid my-5 gap-3 max-md:mx-4 md:grid-cols-2 lg:grid-cols-3 justify-center max-md:justify-normal">
+          <div
+            key={activeCategory?._id}
+            className="grid my-5 gap-3 max-md:mx-4 md:grid-cols-2 lg:grid-cols-3 justify-center max-md:justify-normal"
+          >
             {isMenuLoading || isPopularItemsLoading ? (
               [...Array(12)]
             ) : activeCategory ? (
               filterProducts.map((product: IMenuItem, index: number) =>
                 product ? (
-                  product?.locations?.includes(param) || !param ? (
+                  product?.locations?.includes(param) ? (
                     <div key={product._id + "item"}>
                       <ProductCard
                         product={product}
@@ -257,6 +278,17 @@ const Home: React.FC = () => {
           {filterProducts.length === 0 && <Nodata />}
         </div>
       </div>
+      {isLocationSelectModalOpen && (
+        <LocationSelectModal
+          isOpen={isLocationSelectModalOpen}
+          onSelect={(locationId: number) => {
+            setParam(locationId);
+            setIsLocationSelectModalOpen(false);
+            handleCategory(popularCategory);
+          }}
+          onClose={() => setIsLocationSelectModalOpen(false)}
+        />
+      )}
     </div>
   );
 };
