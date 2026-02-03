@@ -1,6 +1,6 @@
 const Header = () => {
   const locations = [
-    { _id: 1, name: "Bahçeli" },
+    //{ _id: 1, name: "Bahçeli" },
     { _id: 2, name: "Neorama" },
   ];
   const pathSegments = window.location.pathname.split("/");
