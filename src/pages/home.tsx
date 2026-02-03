@@ -114,9 +114,16 @@ const Home: React.FC = () => {
 
     // Check if the last segment is a valid parameter and set it
     if (lastSegment && !isNaN(Number(lastSegment))) {
-      setParam(Number(lastSegment));
+      const locationId = Number(lastSegment);
+      // Redirect /1 to /2
+      if (locationId === 1) {
+        window.location.href = "/2";
+      } else {
+        setParam(locationId);
+      }
     } else {
-      setIsLocationSelectModalOpen(true);
+      // Redirect root path to /2
+      window.location.href = "/2";
     }
   }, []);
   useEffect(() => {
