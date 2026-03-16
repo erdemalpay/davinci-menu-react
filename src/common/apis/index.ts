@@ -21,3 +21,20 @@ export const getPopularItems = async (): Promise<IMenuPopularItem[]> => {
   );
   return request.data;
 };
+
+export interface ICustomerPopup {
+  _id: number;
+  title: string;
+  content: string;
+  imageUrl?: string;
+  cooldownHours: number;
+}
+
+export const getActiveCustomerPopup = async (
+  locationId: number
+): Promise<ICustomerPopup | null> => {
+  const request: AxiosResponse<ICustomerPopup | null> = await axios.get(
+    `/menu/customer-popup/active?location=${locationId}`
+  );
+  return request.data;
+};

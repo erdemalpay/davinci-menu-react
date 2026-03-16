@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 //apis
 import { useQuery } from "react-query";
-import { getCategories, getMenuItems, getPopularItems } from "../common/apis";
+import { getActiveCustomerPopup, getCategories, getMenuItems, getPopularItems, ICustomerPopup } from "../common/apis";
 
 //@types
 import { ICategory, IMenuItem } from "../common/types";
@@ -10,6 +10,7 @@ import { ICategory, IMenuItem } from "../common/types";
 //components
 // import OffersCard from "../components/OffersCard";
 import CategoryCard from "../components/CategoryCard";
+import CustomerPopupModal from "../components/CustomerPopupModal";
 import Header from "../components/Header";
 import LocationSelectModal from "../components/LocationSelectModal";
 import Nodata from "../components/Nodata";
@@ -37,6 +38,8 @@ const Home: React.FC = () => {
   const [param, setParam] = useState<number>(0);
   const [isLocationSelectModalOpen, setIsLocationSelectModalOpen] =
     useState(false);
+  const [activePopup, setActivePopup] = useState<ICustomerPopup | null>(null);
+
   const { isLoading: isMenuLoading, data: menuItems = [] } = useQuery(
     "menuItem",
     getMenuItems
@@ -135,6 +138,23 @@ const Home: React.FC = () => {
 
     setFilterProducts(items);
   }, [param, menuItems, popularItems]);
+
+  // Popup fetch: param set olduktan sonra çalışır
+  useEffect(() => {
+    if (!param) return;
+
+    getActiveCustomerPopup(param).then((popup) => {
+      if (!popup) return;
+
+      const storageKey = `popup_seen_${popup._id}`;
+      const lastSeen = localStorage.getItem(storageKey);
+      const cooldownMs = (popup.cooldownHours ?? 24) * 60 * 60 * 1000;
+
+      if (!lastSeen || Date.now() - Number(lastSeen) > cooldownMs) {
+        setActivePopup(popup);
+      }
+    });
+  }, [param]);
 
   return (
     <div className=" mx-auto">
@@ -294,6 +314,19 @@ const Home: React.FC = () => {
             handleCategory(popularCategory);
           }}
           onClose={() => setIsLocationSelectModalOpen(false)}
+        />
+      )}
+
+      {activePopup && (
+        <CustomerPopupModal
+          popup={activePopup}
+          onClose={() => {
+            localStorage.setItem(
+              `popup_seen_${activePopup._id}`,
+              String(Date.now())
+            );
+            setActivePopup(null);
+          }}
         />
       )}
     </div>
