@@ -29,7 +29,7 @@ const CustomerPopupModal: React.FC<Props> = ({ popup, onClose }) => {
         )}
 
         {/* Content */}
-        <div className="p-5">
+        <div className="p-5 text-center">
           <h2 className="text-lg font-bold text-gray-800 mb-2">
             {popup.title}
           </h2>
