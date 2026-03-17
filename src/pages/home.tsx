@@ -257,7 +257,7 @@ const Home: React.FC = () => {
               </h1>
               <p className="text-xs text-gray-700">
                 * Siparişinizi seçtikten sonra, masadaki çağrı butonlarını
-                kullanarak sipariş verebilirsiniz. Yemek siparişlerinin servis
+                kullanarak sipariş verebilirsiniz. Yemek siparişlerinin(Farm Burger, Kovada Pilav) servis
                 süresi yaklaşık 35-45 dakika sürmektedir.
               </p>
             </div>
