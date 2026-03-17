@@ -38,7 +38,7 @@ const Home: React.FC = () => {
   const [param, setParam] = useState<number>(0);
   const [isLocationSelectModalOpen, setIsLocationSelectModalOpen] =
     useState(false);
-  const [activePopup, setActivePopup] = useState<ICustomerPopup | null>(null);
+  const [popupQueue, setPopupQueue] = useState<ICustomerPopup[]>([]);
 
   const { isLoading: isMenuLoading, data: menuItems = [] } = useQuery(
     "menuItem",
@@ -143,16 +143,17 @@ const Home: React.FC = () => {
   useEffect(() => {
     if (!param) return;
 
-    getActiveCustomerPopup(param).then((popup) => {
-      if (!popup) return;
+    getActiveCustomerPopup(param).then((popups) => {
+      if (!popups?.length) return;
 
-      const storageKey = `popup_seen_${popup._id}`;
-      const lastSeen = localStorage.getItem(storageKey);
-      const cooldownMs = (popup.cooldownHours ?? 24) * 60 * 60 * 1000;
+      const visible = popups.filter((popup) => {
+        const storageKey = `popup_seen_${popup._id}`;
+        const lastSeen = localStorage.getItem(storageKey);
+        const cooldownMs = (popup.cooldownHours ?? 24) * 60 * 60 * 1000;
+        return !lastSeen || Date.now() - Number(lastSeen) > cooldownMs;
+      });
 
-      if (!lastSeen || Date.now() - Number(lastSeen) > cooldownMs) {
-        setActivePopup(popup);
-      }
+      setPopupQueue(visible);
     });
   }, [param]);
 
@@ -317,15 +318,15 @@ const Home: React.FC = () => {
         />
       )}
 
-      {activePopup && (
+      {popupQueue.length > 0 && (
         <CustomerPopupModal
-          popup={activePopup}
+          popup={popupQueue[0]}
           onClose={() => {
             localStorage.setItem(
-              `popup_seen_${activePopup._id}`,
+              `popup_seen_${popupQueue[0]._id}`,
               String(Date.now())
             );
-            setActivePopup(null);
+            setPopupQueue((prev) => prev.slice(1));
           }}
         />
       )}
