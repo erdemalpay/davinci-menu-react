@@ -24,7 +24,7 @@ const ProductCard = ({ product, categories }: IProps) => {
         <div className="flex flex-col justify-between py-3 w-full px-1">
           <div className="flex flex-col gap-2">
             <h1 className="leading-none text-lg font-semibold">{name}</h1>
-            <p className=" text-xs text-gray-500 leading-none font-medium">
+            <p className="text-xs text-gray-500 font-medium whitespace-pre-line">
               {!description || description === "-" ? "" : description}
             </p>
           </div>
