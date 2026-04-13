@@ -21,18 +21,16 @@ const ProductCard = ({ product, categories }: IProps) => {
           src={imageUrl && imageUrl !== "" ? imageUrl : NO_IMAGE_URL}
           alt={foundCategory?.name}
         />
-        <div className="flex flex-col justify-between py-3 w-full px-1">
-          <div className="flex flex-col gap-2">
+        <div className="flex flex-col py-3 w-full px-1 min-w-0">
+          <div className="flex flex-row items-center justify-between gap-2 mb-2">
             <h1 className="leading-none text-lg font-semibold">{name}</h1>
-            <p className="text-xs text-gray-500 font-medium whitespace-pre-line">
-              {!description || description === "-" ? "" : description}
-            </p>
-          </div>
-          {
-            <p className="font-bold ml-auto px-2 ">
+            <p className="font-bold shrink-0 px-2">
               <span className="text-gray-500">₺ {price}</span>
             </p>
-          }
+          </div>
+          <p className="text-xs text-gray-500 font-medium whitespace-pre-line">
+            {!description || description === "-" ? "" : description}
+          </p>
         </div>
       </div>
     </div>
