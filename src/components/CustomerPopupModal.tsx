@@ -30,7 +30,7 @@ const CustomerPopupModal: React.FC<Props> = ({ popup, onClose }) => {
 
         {/* Görsel */}
         {popup.imageUrl && (
-          <div className="w-full h-48 overflow-hidden">
+          <div className="w-full aspect-[2/1] overflow-hidden">
             <img
               src={popup.imageUrl}
               alt={popup.title}
