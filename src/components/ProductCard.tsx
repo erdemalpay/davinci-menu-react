@@ -11,7 +11,7 @@ interface IProps {
 //--------------------------------------------------------------------------
 
 const ProductCard = ({ product, categories }: IProps) => {
-  const { name, category, price, description, imageUrl } = product;
+  const { name, category, price, referencePrice, description, imageUrl } = product;
   const foundCategory = categories.find((cat) => cat._id === category);
   return (
     <div className="bg-white rounded-md shadow-md overflow-hidden ">
@@ -24,9 +24,15 @@ const ProductCard = ({ product, categories }: IProps) => {
         <div className="flex flex-col py-3 w-full px-1 min-w-0">
           <div className="flex flex-row items-center justify-between gap-2 mb-2">
             <h1 className="leading-none text-lg font-semibold">{name}</h1>
-            <p className="font-bold shrink-0 px-2">
-              <span className="text-gray-500">₺ {price}</span>
-            </p>
+            <div className="flex flex-col items-end shrink-0 px-2">
+              {!!referencePrice && referencePrice > 0 && (
+                <span className="relative text-gray-400 text-sm font-medium px-2">
+                  ₺ {referencePrice}
+                  <span className="absolute inset-x-0 border-gray-400" style={{ borderTopWidth: "1.5px", top: "50%", transform: "translateY(-50%)" }} />
+                </span>
+              )}
+              <span className="font-bold">₺ {price}</span>
+            </div>
           </div>
           <p className="text-xs text-gray-500 font-medium whitespace-pre-line">
             {!description || description === "-" ? "" : description}

@@ -5,6 +5,7 @@ export interface IMenuItem {
   priceNeorama: number;
   priceBahceli: number;
   price: number;
+  referencePrice?: number;
   locations: number[];
   description: string;
   imageUrl: string;
