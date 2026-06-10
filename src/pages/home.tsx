@@ -196,14 +196,14 @@ const Home: React.FC = () => {
                   category ? (
                     param ? (
                       category.locations.includes(param) ? (
-                        <div key={category._id + "category" + index} onClick={() => handleCategory(category)}>
+                        <div key={category._id + "category" + index} onClick={(e) => { handleCategory(category); e.currentTarget.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" }); }}>
                           <CategoryCard category={category} isActive={category._id === activeCategory?._id} />
                         </div>
                       ) : (
                         <></>
                       )
                     ) : (
-                      <div key={category._id} onClick={() => handleCategory(category)}>
+                      <div key={category._id} onClick={(e) => { handleCategory(category); e.currentTarget.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" }); }}>
                         <CategoryCard category={category} isActive={category._id === activeCategory?._id} />
                       </div>
                     )
