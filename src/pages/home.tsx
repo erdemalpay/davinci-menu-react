@@ -127,13 +127,13 @@ const Home: React.FC = () => {
   }, [param]);
 
   return (
-    <div className="mx-auto min-h-screen bg-[#f5f0e8]">
+    <div className="mx-auto min-h-screen bg-white">
       {/* Fixed top bar */}
       <div className="fixed top-0 w-full z-[1000]">
         <Header />
 
         {/* Category strip */}
-        <div className="bg-[#f5f0e8]/95 backdrop-blur-md border-b border-gray-200/80 px-4 max-md:px-3">
+        <div className="bg-white/95 backdrop-blur-md border-b border-gray-200/80 px-4 max-md:px-3">
           <div className="relative category container mx-auto">
             {/* Desktop scroll arrows */}
             <button
@@ -179,33 +179,32 @@ const Home: React.FC = () => {
 
       {/* Content — offset for fixed header + category bar */}
       {/* Header: 88px desktop / 72px mobile. Category strip: ~120px desktop / ~104px mobile */}
-      <div className="container mx-auto mt-[216px] max-md:mt-[182px] px-4 md:px-0 pb-12">
+      <div className="mt-[216px] max-md:mt-[182px] pb-12">
         {/* Section header */}
-        <div className="flex items-start justify-between gap-4 pt-6 mb-5">
-          <div className="flex flex-col gap-1.5">
-            <h1 className="text-gray-900 font-bold text-xl tracking-tight">
+        <div className="max-w-[470px] mx-auto flex items-start justify-between gap-4 pt-4 pb-2 px-3 border-b border-gray-200">
+          <div className="flex flex-col gap-1">
+            <h1 className="text-gray-900 font-bold text-sm tracking-tight">
               {activeCategory?.name}
             </h1>
-            <p className="text-[11px] text-gray-600 leading-relaxed max-w-sm">
+            <p className="text-[10px] text-gray-500 leading-relaxed max-w-sm">
               * Siparişinizi seçtikten sonra masadaki çağrı butonunu kullanarak sipariş verebilirsiniz.
-              Farm Burger ve Kovada Pilav siparişleri yaklaşık 35–45 dakikada servis edilir.
             </p>
           </div>
 
           {activeCategory && activeCategory.name !== popularCategory.name && (
             <button
               onClick={() => handleCategory(popularCategory)}
-              className="shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold bg-amber-50 text-amber-700 border border-amber-300 hover:bg-amber-100 transition-all duration-200 whitespace-nowrap"
+              className="shrink-0 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-300 hover:bg-amber-100 transition-all duration-200 whitespace-nowrap"
             >
               ✦ Popüler
             </button>
           )}
         </div>
 
-        {/* Product grid */}
+        {/* Instagram feed */}
         <div
           key={activeCategory?._id}
-          className="grid gap-3 md:grid-cols-2 lg:grid-cols-3"
+          className="max-w-[470px] mx-auto flex flex-col"
         >
           {isMenuLoading || isPopularItemsLoading
             ? [...Array(12)].map((_, i) => (

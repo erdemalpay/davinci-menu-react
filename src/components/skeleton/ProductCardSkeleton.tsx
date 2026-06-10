@@ -1,18 +1,25 @@
 const ProductCardSkeleton = () => {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden h-[120px] md:h-[130px]">
-      <div className="animate-pulse flex h-full">
-        <div className="shrink-0 w-[120px] md:w-[130px] h-full bg-gray-200" />
-        <div className="flex flex-col justify-between py-3 px-3 flex-1">
-          <div className="space-y-2">
-            <div className="h-3 bg-gray-200 rounded w-3/4" />
-            <div className="h-2 bg-gray-200 rounded w-full" />
-            <div className="h-2 bg-gray-200 rounded w-2/3" />
-          </div>
-          <div className="flex justify-end">
-            <div className="h-5 bg-gray-200 rounded w-16" />
-          </div>
-        </div>
+    <div className="bg-white border-b border-gray-200 animate-pulse">
+      {/* header */}
+      <div className="flex items-center gap-2.5 px-3 py-2.5">
+        <div className="w-9 h-9 rounded-full bg-gray-200 shrink-0" />
+        <div className="h-3 w-28 bg-gray-200 rounded" />
+      </div>
+      {/* image */}
+      <div className="w-full aspect-square bg-gray-200" />
+      {/* actions */}
+      <div className="flex items-center gap-4 px-3 pt-3 pb-2">
+        <div className="h-6 w-6 rounded-full bg-gray-200" />
+        <div className="h-6 w-6 rounded-full bg-gray-200" />
+        <div className="h-6 w-6 rounded-full bg-gray-200" />
+        <div className="ml-auto h-6 w-6 rounded-full bg-gray-200" />
+      </div>
+      {/* likes + caption */}
+      <div className="px-3 pb-4 space-y-2">
+        <div className="h-3 w-20 bg-gray-200 rounded" />
+        <div className="h-3 w-full bg-gray-200 rounded" />
+        <div className="h-3 w-3/4 bg-gray-200 rounded" />
       </div>
     </div>
   );
