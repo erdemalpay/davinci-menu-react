@@ -40,6 +40,7 @@ const Home: React.FC = () => {
   const [popupQueue, setPopupQueue] = useState<ICustomerPopup[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<IMenuItem | null>(null);
   const [showCategory, setShowCategory] = useState(true);
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const lastScrollY = useRef(0);
 
   const { isLoading: isMenuLoading, data: menuItems = [] } = useQuery("menuItem", getMenuItems);
@@ -127,6 +128,7 @@ const Home: React.FC = () => {
       } else {
         setShowCategory(true);
       }
+      setShowScrollTop(currentY > 200);
       lastScrollY.current = currentY;
     };
 
@@ -232,14 +234,6 @@ const Home: React.FC = () => {
             </p>
           </div>
 
-          {activeCategory && activeCategory.name !== popularCategory.name && (
-            <button
-              onClick={() => handleCategory(popularCategory)}
-              className="shrink-0 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-300 hover:bg-amber-100 transition-all duration-200 whitespace-nowrap"
-            >
-              ✦ Popüler
-            </button>
-          )}
         </div>
 
         {/* Instagram feed */}
@@ -262,7 +256,7 @@ const Home: React.FC = () => {
                         product={product}
                         param={param}
                         categories={categories}
-                        onClick={() => setSelectedProduct(product)}
+                        // onClick={() => setSelectedProduct(product)}
                       />
                     </div>
                   ) : (
@@ -299,6 +293,16 @@ const Home: React.FC = () => {
           onClose={() => setSelectedProduct(null)}
         />
       )}
+
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        className={`fixed bottom-10 right-8 z-[998] w-10 h-10 rounded-full bg-white/70 backdrop-blur-sm border border-gray-200 shadow-md flex items-center justify-center transition-all duration-300 hover:bg-white ${
+          showScrollTop ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+        }`}
+        aria-label="Başa dön"
+      >
+        <img src="./assets/next-16.png" className="h-4 w-4 -rotate-90 opacity-60" alt="" />
+      </button>
 
       {popupQueue.length > 0 && (
         <CustomerPopupModal

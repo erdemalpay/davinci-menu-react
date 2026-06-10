@@ -8,7 +8,7 @@ const Header = () => {
     <div className="head-container w-full h-[88px] max-md:h-[72px]">
       <div className="relative z-10 h-full flex items-center justify-between px-6 max-md:px-4">
         {/* Brand */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
           <img src="./assets/logo.svg" alt="Logo" className="h-11 max-md:h-9 drop-shadow" />
           <div className="flex flex-col">
             <span className="text-amber-700 text-[10px] tracking-[0.3em] uppercase font-semibold leading-none mb-0.5">
