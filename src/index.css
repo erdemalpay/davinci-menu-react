@@ -20,26 +20,26 @@
 }
 
 body {
-  background-color: #eaf0f9;
+  background-color: #f5f0e8;
 }
 
 /* scrollbar */
 
 ::-webkit-scrollbar {
-  width: 6.5px;
+  width: 4px;
   height: 0;
 }
 ::-webkit-scrollbar-track {
-  background-color: #f2f2f2;
+  background-color: #ede8df;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #f79c68b2;
+  background-color: #d9770660;
   border-radius: 30px;
 }
 
 html {
   scrollbar-width: thin;
-  scrollbar-color: #f79c68 #f2f2f2;
+  scrollbar-color: #d97706 #ede8df;
   scroll-behavior: smooth;
 }

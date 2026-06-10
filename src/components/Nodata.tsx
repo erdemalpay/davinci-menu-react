@@ -1,15 +1,10 @@
 const Nodata = () => {
   return (
-    <div className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
-      <div className="text-center">
-        <p className="text-base font-semibold text-orange-600">Oops!</p>
-
-        <h1 className="mt-4 text-3xl font-bold text-gray-800 ">No Data</h1>
-
-        <p className="mt-6 text-base font-semibold text-gray-600">
-          Sorry, we could't find what you are looking for.{" "}
-        </p>
-      </div>
+    <div className="flex flex-col items-center justify-center py-24 px-6">
+      <div className="text-4xl mb-4 opacity-30">🎲</div>
+      <p className="text-amber-600/70 text-sm font-semibold tracking-widest uppercase mb-2">Oops!</p>
+      <h1 className="text-xl font-bold text-gray-300 mb-2">Bu kategoride ürün yok</h1>
+      <p className="text-gray-400 text-sm text-center">Başka bir kategori seçmeyi deneyin.</p>
     </div>
   );
 };

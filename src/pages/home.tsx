@@ -8,13 +8,13 @@ import { getActiveCustomerPopup, getCategories, getMenuItems, getPopularItems, I
 import { ICategory, IMenuItem } from "../common/types";
 
 //components
-// import OffersCard from "../components/OffersCard";
 import CategoryCard from "../components/CategoryCard";
 import CustomerPopupModal from "../components/CustomerPopupModal";
 import Header from "../components/Header";
 import LocationSelectModal from "../components/LocationSelectModal";
 import Nodata from "../components/Nodata";
 import ProductCard from "../components/ProductCard";
+import ProductDetailModal from "../components/ProductDetailModal";
 import CategoryCardSkeleton from "../components/skeleton/CategoryCardSkeleton";
 import ProductCardSkeleton from "../components/skeleton/ProductCardSkeleton";
 
@@ -30,36 +30,26 @@ const Home: React.FC = () => {
     locations: [1, 2],
     imageUrl: "/assets/popular.jpeg",
   };
-  const [activeCategory, setActiveCategory] = useState<ICategory | null>(
-    popularCategory
-  );
 
+  const [activeCategory, setActiveCategory] = useState<ICategory | null>(popularCategory);
   const [param, setParam] = useState<number>(0);
-  const [isLocationSelectModalOpen, setIsLocationSelectModalOpen] =
-    useState(false);
+  const [isLocationSelectModalOpen, setIsLocationSelectModalOpen] = useState(false);
   const [popupQueue, setPopupQueue] = useState<ICustomerPopup[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<IMenuItem | null>(null);
 
-  const { isLoading: isMenuLoading, data: menuItems = [] } = useQuery(
-    "menuItem",
-    getMenuItems
-  );
-  const { isLoading: isPopularItemsLoading, data: popularItems = [] } =
-    useQuery("popularItems", getPopularItems);
+  const { isLoading: isMenuLoading, data: menuItems = [] } = useQuery("menuItem", getMenuItems);
+  const { isLoading: isPopularItemsLoading, data: popularItems = [] } = useQuery("popularItems", getPopularItems);
 
   const [filterProducts, setFilterProducts] = useState<IMenuItem[]>(
     popularItems
       ?.map((popularItem) => {
-        const foundItem = menuItems?.find((item: IMenuItem) => {
-          return item._id === popularItem.item && item.shownInMenu;
-        });
+        const foundItem = menuItems?.find((item: IMenuItem) => item._id === popularItem.item && item.shownInMenu);
         return foundItem ? foundItem : null;
       })
       ?.filter((item) => item !== null) as IMenuItem[]
   );
-  const { isLoading, data: categories = [] } = useQuery(
-    "categories",
-    getCategories
-  );
+
+  const { isLoading, data: categories = [] } = useQuery("categories", getCategories);
 
   const handleCategory = (category: ICategory) => {
     setActiveCategory(category);
@@ -68,161 +58,112 @@ const Home: React.FC = () => {
       const temp = menuItems
         .filter(
           (item: IMenuItem) =>
-            (item.category === category._id || item.additionalCategories?.includes(category._id) ) &&
+            (item.category === category._id || item.additionalCategories?.includes(category._id)) &&
             item.price &&
             item.shownInMenu
         )
         .sort((a, b) => a.order - b.order);
       setFilterProducts(temp);
+
       if (category === popularCategory) {
         setFilterProducts(
           popularItems
             ?.map((popularItem) => {
-              const foundItem = menuItems?.find((item: IMenuItem) => {
-                return item._id === popularItem.item && item.shownInMenu;
-              });
+              const foundItem = menuItems?.find((item: IMenuItem) => item._id === popularItem.item && item.shownInMenu);
               return foundItem ? foundItem : null;
             })
             ?.filter((item) => item !== null) as IMenuItem[]
         );
       }
     }
-    window.scrollTo({
-      top: 0, // Scroll to the top of the window
-      behavior: "smooth", // Optional: Defines the transition animation. Remove for instant scroll
-    });
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const scrollLeft = () => {
-    if (containerRef.current) {
-      containerRef.current.scrollBy({
-        left: -300,
-        behavior: "smooth",
-      });
-    }
+    containerRef.current?.scrollBy({ left: -300, behavior: "smooth" });
   };
 
   const scrollRight = () => {
-    if (containerRef.current) {
-      containerRef.current.scrollBy({
-        left: 300,
-        behavior: "smooth",
-      });
-    }
+    containerRef.current?.scrollBy({ left: 300, behavior: "smooth" });
   };
 
   useEffect(() => {
-    // Extracting the last segment of the URL path
     const pathSegments = window.location.pathname.split("/");
-    const lastSegment = pathSegments.pop() || pathSegments.pop(); // Handle trailing slash
+    const lastSegment = pathSegments.pop() || pathSegments.pop();
 
-    // Check if the last segment is a valid parameter and set it
     if (lastSegment && !isNaN(Number(lastSegment))) {
       const locationId = Number(lastSegment);
-      // Redirect /1 to /2
       if (locationId === 1) {
         window.location.href = "/2";
       } else {
         setParam(locationId);
       }
     } else {
-      // Redirect root path to /2
       window.location.href = "/2";
     }
   }, []);
+
   useEffect(() => {
     setActiveCategory(popularCategory);
-
     const items = popularItems
       .map((pi) => menuItems.find((mi) => mi._id === pi.item && mi.shownInMenu))
       .filter((x): x is IMenuItem => x != null);
-
     setFilterProducts(items);
   }, [param, menuItems, popularItems]);
 
-  // Popup fetch: param set olduktan sonra çalışır
   useEffect(() => {
     if (!param) return;
-
     getActiveCustomerPopup(param).then((popups) => {
       if (!popups?.length) return;
-
       const visible = popups.filter((popup) => {
         const storageKey = `popup_seen_${popup._id}`;
         const lastSeen = localStorage.getItem(storageKey);
         const cooldownMs = (popup.cooldownHours ?? 24) * 60 * 60 * 1000;
         return !lastSeen || Date.now() - Number(lastSeen) > cooldownMs;
       });
-
       setPopupQueue(visible);
     });
   }, [param]);
 
   return (
-    <div className=" mx-auto">
-      <div className="fixed top-0 w-full  z-1000">
+    <div className="mx-auto min-h-screen bg-[#f5f0e8]">
+      {/* Fixed top bar */}
+      <div className="fixed top-0 w-full z-[1000]">
         <Header />
 
-        {/* Popular Categories */}
-        <div className="container pt-5 max-md:pb-0 max-md:px-4 bg-[#eaf0f9]">
-          <div className="relative category">
+        {/* Category strip */}
+        <div className="bg-[#f5f0e8]/95 backdrop-blur-md border-b border-gray-200/80 px-4 max-md:px-3">
+          <div className="relative category container mx-auto">
+            {/* Desktop scroll arrows */}
             <button
               onClick={scrollLeft}
-              className="absolute max-sm:hidden left-icon top-1/2 transform -translate-y-1/2  p-1 rounded-full bg-gray-300 z-10"
+              className="absolute max-sm:hidden left-icon top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-white hover:bg-gray-50 z-10 border border-gray-200 shadow-sm transition-colors"
             >
-              <img
-                src="./assets/next-16.png"
-                className="h-5 w-5 rotate-180"
-                alt=""
-              />
+              <img src="./assets/next-16.png" className="h-4 w-4 rotate-180 opacity-50" alt="" />
             </button>
             <button
               onClick={scrollRight}
-              className="absolute max-sm:hidden right-icon top-1/2 transform -translate-y-1/2  p-1 rounded-full bg-gray-300 z-10"
+              className="absolute max-sm:hidden right-icon top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-white hover:bg-gray-50 z-10 border border-gray-200 shadow-sm transition-colors"
             >
-              <img src="./assets/next-16.png" className="h-5 w-5" alt="" />
+              <img src="./assets/next-16.png" className="h-4 w-4 opacity-50" alt="" />
             </button>
 
-            <div
-              ref={containerRef}
-              className="flex max-md:gap-2 gap-3 overflow-auto"
-            >
-              {(isLoading
-                ? [...Array(10)]
-                : [popularCategory, ...categories]
-              ) /* .filter(
-                    (category) =>
-                      category && category.name !== "Haftanın Kampanyaları"
-                  ) */
-                .map((category: ICategory, index: number) =>
+            <div ref={containerRef} className="flex gap-1 overflow-auto pb-1">
+              {(isLoading ? [...Array(10)] : [popularCategory, ...categories]).map(
+                (category: ICategory, index: number) =>
                   category ? (
                     param ? (
                       category.locations.includes(param) ? (
-                        <div
-                          key={category._id + "category" + index}
-                          onClick={() => handleCategory(category)}
-                        >
-                          <CategoryCard
-                            category={category}
-                            isActive={Boolean(
-                              category._id === activeCategory?._id
-                            )}
-                          />
+                        <div key={category._id + "category" + index} onClick={() => handleCategory(category)}>
+                          <CategoryCard category={category} isActive={category._id === activeCategory?._id} />
                         </div>
                       ) : (
                         <></>
                       )
                     ) : (
-                      <div
-                        key={category._id}
-                        onClick={() => handleCategory(category)}
-                      >
-                        <CategoryCard
-                          category={category}
-                          isActive={Boolean(
-                            category._id === activeCategory?._id
-                          )}
-                        />
+                      <div key={category._id} onClick={() => handleCategory(category)}>
+                        <CategoryCard category={category} isActive={category._id === activeCategory?._id} />
                       </div>
                     )
                   ) : (
@@ -230,57 +171,50 @@ const Home: React.FC = () => {
                       <CategoryCardSkeleton />
                     </div>
                   )
-                )}
+              )}
             </div>
           </div>
         </div>
       </div>
-      <div className="container mt-[360px] max-md:mt-[300px]">
-        {/* Hot Offers */}
-        {/* <div className="mt-0 max-md:mx-4">
-          <h1 className="text-xl font-bold mb-3">Kampanyalar</h1>
-          <div className="flex gap-3 overflow-x-auto">
-            {[...Array(3)].map((_, index: number) => (
-              <div key={index}>
-                <OffersCard />
-              </div>
-            ))}
-          </div>
-        </div> */}
 
-        {/* Popular Items */}
-
-        <div className="pt-6 sm:pt-12">
-          <div className=" flex justify-between px-4 md:px-0">
-            <div className="flex flex-col gap-2 ">
-              <h1 className="text-xl font-bold">
-                {activeCategory && activeCategory.name}
-              </h1>
-              <p className="text-xs text-gray-700">
-                * Siparişinizi seçtikten sonra, masadaki çağrı butonlarını
-                kullanarak sipariş verebilirsiniz. Yemek siparişlerinin(Farm Burger, Kovada Pilav) servis
-                süresi yaklaşık 35-45 dakika sürmektedir.
-              </p>
-            </div>
-
-            {activeCategory && activeCategory.name !== popularCategory.name && (
-              <div
-                onClick={() => handleCategory(popularCategory)}
-                className="border px-3 py-1 bg-orange-300 rounded-lg cursor-pointer hover:bg-orange-200 w-fit h-fit "
-              >
-                Popüler
-              </div>
-            )}
+      {/* Content — offset for fixed header + category bar */}
+      {/* Header: 88px desktop / 72px mobile. Category strip: ~120px desktop / ~104px mobile */}
+      <div className="container mx-auto mt-[216px] max-md:mt-[182px] px-4 md:px-0 pb-12">
+        {/* Section header */}
+        <div className="flex items-start justify-between gap-4 pt-6 mb-5">
+          <div className="flex flex-col gap-1.5">
+            <h1 className="text-gray-900 font-bold text-xl tracking-tight">
+              {activeCategory?.name}
+            </h1>
+            <p className="text-[11px] text-gray-600 leading-relaxed max-w-sm">
+              * Siparişinizi seçtikten sonra masadaki çağrı butonunu kullanarak sipariş verebilirsiniz.
+              Farm Burger ve Kovada Pilav siparişleri yaklaşık 35–45 dakikada servis edilir.
+            </p>
           </div>
 
-          <div
-            key={activeCategory?._id}
-            className="grid my-5 gap-3 max-md:mx-4 md:grid-cols-2 lg:grid-cols-3 justify-center max-md:justify-normal"
-          >
-            {isMenuLoading || isPopularItemsLoading ? (
-              [...Array(12)]
-            ) : activeCategory ? (
-              filterProducts.map((product: IMenuItem, index: number) =>
+          {activeCategory && activeCategory.name !== popularCategory.name && (
+            <button
+              onClick={() => handleCategory(popularCategory)}
+              className="shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold bg-amber-50 text-amber-700 border border-amber-300 hover:bg-amber-100 transition-all duration-200 whitespace-nowrap"
+            >
+              ✦ Popüler
+            </button>
+          )}
+        </div>
+
+        {/* Product grid */}
+        <div
+          key={activeCategory?._id}
+          className="grid gap-3 md:grid-cols-2 lg:grid-cols-3"
+        >
+          {isMenuLoading || isPopularItemsLoading
+            ? [...Array(12)].map((_, i) => (
+                <div key={i}>
+                  <ProductCardSkeleton />
+                </div>
+              ))
+            : activeCategory
+            ? filterProducts.map((product: IMenuItem, index: number) =>
                 product ? (
                   product?.locations?.includes(param) ? (
                     <div key={product._id + "item"}>
@@ -288,6 +222,7 @@ const Home: React.FC = () => {
                         product={product}
                         param={param}
                         categories={categories}
+                        onClick={() => setSelectedProduct(product)}
                       />
                     </div>
                   ) : (
@@ -299,14 +234,12 @@ const Home: React.FC = () => {
                   </div>
                 )
               )
-            ) : (
-              <></>
-            )}
-          </div>
-
-          {filterProducts.length === 0 && <Nodata />}
+            : null}
         </div>
+
+        {filterProducts.length === 0 && !isMenuLoading && !isPopularItemsLoading && <Nodata />}
       </div>
+
       {isLocationSelectModalOpen && (
         <LocationSelectModal
           isOpen={isLocationSelectModalOpen}
@@ -319,14 +252,19 @@ const Home: React.FC = () => {
         />
       )}
 
+      {selectedProduct && (
+        <ProductDetailModal
+          product={selectedProduct}
+          categories={categories}
+          onClose={() => setSelectedProduct(null)}
+        />
+      )}
+
       {popupQueue.length > 0 && (
         <CustomerPopupModal
           popup={popupQueue[0]}
           onClose={() => {
-            localStorage.setItem(
-              `popup_seen_${popupQueue[0]._id}`,
-              String(Date.now())
-            );
+            localStorage.setItem(`popup_seen_${popupQueue[0]._id}`, String(Date.now()));
             setPopupQueue((prev) => prev.slice(1));
           }}
         />
