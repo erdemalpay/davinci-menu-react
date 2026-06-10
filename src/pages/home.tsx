@@ -36,6 +36,8 @@ const Home: React.FC = () => {
   const [isLocationSelectModalOpen, setIsLocationSelectModalOpen] = useState(false);
   const [popupQueue, setPopupQueue] = useState<ICustomerPopup[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<IMenuItem | null>(null);
+  const [showCategory, setShowCategory] = useState(true);
+  const lastScrollY = useRef(0);
 
   const { isLoading: isMenuLoading, data: menuItems = [] } = useQuery("menuItem", getMenuItems);
   const { isLoading: isPopularItemsLoading, data: popularItems = [] } = useQuery("popularItems", getPopularItems);
@@ -113,6 +115,23 @@ const Home: React.FC = () => {
   }, [param, menuItems, popularItems]);
 
   useEffect(() => {
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      if (currentY < 50) {
+        setShowCategory(true);
+      } else if (currentY > lastScrollY.current) {
+        setShowCategory(false);
+      } else {
+        setShowCategory(true);
+      }
+      lastScrollY.current = currentY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
     if (!param) return;
     getActiveCustomerPopup(param).then((popups) => {
       if (!popups?.length) return;
@@ -128,11 +147,17 @@ const Home: React.FC = () => {
 
   return (
     <div className="mx-auto min-h-screen bg-white">
-      {/* Fixed top bar */}
+      {/* Header — always fixed */}
       <div className="fixed top-0 w-full z-[1000]">
         <Header />
+      </div>
 
-        {/* Category strip */}
+      {/* Category strip — slides up on scroll down, returns on scroll up */}
+      <div
+        className={`fixed w-full z-[999] top-[88px] max-md:top-[72px] transition-transform duration-300 ease-in-out ${
+          showCategory ? "translate-y-0" : "-translate-y-full"
+        }`}
+      >
         <div className="bg-white/95 backdrop-blur-md border-b border-gray-200/80 px-4 max-md:px-3">
           <div className="relative category container mx-auto">
             {/* Desktop scroll arrows */}
