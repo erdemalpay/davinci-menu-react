@@ -24,7 +24,7 @@ function dummySmall(id: number, seed: number): number {
   return 10 + (id * seed + 113) % 990;
 }
 
-const ProductCard = ({ product, categories, onClick }: IProps) => {
+const ProductCard = ({ product, categories }: IProps) => {
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
   const [expanded, setExpanded] = useState(false);
