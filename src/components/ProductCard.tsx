@@ -29,11 +29,17 @@ const ProductCard = ({ product, categories, onClick }: IProps) => {
   const [saved, setSaved] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [heartAnim, setHeartAnim] = useState(false);
+  const [heartPos, setHeartPos] = useState({ x: 50, y: 50 });
   const lastTapRef = useRef<number>(0);
 
-  const handleImageTap = () => {
+  const handleImageTap = (e: React.MouseEvent<HTMLDivElement>) => {
     const now = Date.now();
     if (now - lastTapRef.current < 300) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      setHeartPos({
+        x: ((e.clientX - rect.left) / rect.width) * 100,
+        y: ((e.clientY - rect.top) / rect.height) * 100,
+      });
       setLiked(true);
       setHeartAnim(false);
       requestAnimationFrame(() => requestAnimationFrame(() => setHeartAnim(true)));
@@ -94,7 +100,7 @@ const ProductCard = ({ product, categories, onClick }: IProps) => {
         {/* double-tap heart animation */}
         {heartAnim && (
           <svg
-            style={{ animation: "insta-heart 0.8s ease-out forwards", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", pointerEvents: "none" }}
+            style={{ animation: "insta-heart 0.8s ease-out forwards", position: "absolute", top: `${heartPos.y}%`, left: `${heartPos.x}%`, transform: "translate(-50%,-50%)", pointerEvents: "none" }}
             width="100" height="100" viewBox="0 0 24 24"
             filter="drop-shadow(0 2px 8px rgba(0,0,0,0.35))"
           >
