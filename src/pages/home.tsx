@@ -22,6 +22,9 @@ import ProductCardSkeleton from "../components/skeleton/ProductCardSkeleton";
 
 const Home: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const categoryStripRef = useRef<HTMLDivElement>(null);
+  const [fixedHeight, setFixedHeight] = useState(216);
 
   const popularCategory = {
     _id: 999999999,
@@ -132,6 +135,18 @@ const Home: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    const measure = () => {
+      const h = (headerRef.current?.offsetHeight ?? 0) + (categoryStripRef.current?.offsetHeight ?? 0);
+      if (h > 0) setFixedHeight(h);
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    if (headerRef.current) observer.observe(headerRef.current);
+    if (categoryStripRef.current) observer.observe(categoryStripRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     if (!param) return;
     getActiveCustomerPopup(param).then((popups) => {
       if (!popups?.length) return;
@@ -148,12 +163,13 @@ const Home: React.FC = () => {
   return (
     <div className="mx-auto min-h-screen bg-white">
       {/* Header — always fixed */}
-      <div className="fixed top-0 w-full z-[1000]">
+      <div ref={headerRef} className="fixed top-0 w-full z-[1000]">
         <Header />
       </div>
 
       {/* Category strip — slides up on scroll down, returns on scroll up */}
       <div
+        ref={categoryStripRef}
         className={`fixed w-full z-[999] top-[88px] max-md:top-[72px] transition-transform duration-300 ease-in-out ${
           showCategory ? "translate-y-0" : "-translate-y-full"
         }`}
@@ -204,7 +220,7 @@ const Home: React.FC = () => {
 
       {/* Content — offset for fixed header + category bar */}
       {/* Header: 88px desktop / 72px mobile. Category strip: ~120px desktop / ~104px mobile */}
-      <div className="mt-[216px] max-md:mt-[182px] pb-12">
+      <div style={{ marginTop: fixedHeight }} className="pb-12">
         {/* Section header */}
         <div className="max-w-[470px] mx-auto flex items-start justify-between gap-4 pt-4 pb-2 px-3 border-b border-gray-200">
           <div className="flex flex-col gap-1">
