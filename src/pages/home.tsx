@@ -228,8 +228,13 @@ const Home: React.FC = () => {
           <div className="flex flex-col gap-1">
             <h1 className="text-gray-900 font-bold text-sm tracking-tight">
               {activeCategory?.name}
+              {!isMenuLoading && !isPopularItemsLoading && (
+                <span className="ml-2 text-gray-400 font-normal text-xs">
+                  ({filterProducts.filter((p) => p?.locations?.includes(param)).length} Gönderi)
+                </span>
+              )}
             </h1>
-            <p className="text-[10px] text-gray-500 leading-relaxed max-w-sm">
+            <p className="text-[12px] text-gray-500 leading-relaxed max-w-sm">
               * Siparişinizi seçtikten sonra masadaki çağrı butonunu kullanarak sipariş verebilirsiniz.
             </p>
           </div>

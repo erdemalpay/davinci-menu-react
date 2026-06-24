@@ -119,7 +119,7 @@ const ProductCard = ({ product, categories }: IProps) => {
         <div className="absolute bottom-0 right-0 p-3 pointer-events-none">
           <div className="flex flex-col items-end">
             {!!referencePrice && referencePrice > 0 && (
-              <span className="relative text-white/60 text-sm font-medium px-0.5 leading-none mb-1">
+              <span className="relative text-white/60 text-base font-medium px-0.5 leading-none mb-1">
                 ₺{referencePrice}
                 <span
                   className="absolute inset-x-0 border-white/60"
@@ -127,7 +127,7 @@ const ProductCard = ({ product, categories }: IProps) => {
                 />
               </span>
             )}
-            <span className="text-amber-400 font-bold text-2xl drop-shadow-md leading-none">
+            <span className="text-amber-400 font-bold text-3xl drop-shadow-md leading-none">
               ₺{price}
             </span>
           </div>
@@ -155,7 +155,7 @@ const ProductCard = ({ product, categories }: IProps) => {
           </button>
 
           {/* Comment */}
-          <button className="flex items-center gap-1.5 active:scale-110 transition-transform duration-100" aria-label="Yorum">
+          <button className="flex items-center gap-1.5" aria-label="Yorum">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#262626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{transform:"scaleX(-1)"}}>
               <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2z" />
             </svg>
@@ -163,7 +163,7 @@ const ProductCard = ({ product, categories }: IProps) => {
           </button>
 
           {/* Share / Send */}
-          <button className="flex items-center gap-1.5 active:scale-110 transition-transform duration-100" aria-label="Paylaş">
+          <button className="flex items-center gap-1.5" aria-label="Paylaş">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#262626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="22" y1="2" x2="11" y2="13" />
               <polygon points="22 2 15 22 11 13 2 9 22 2" />
