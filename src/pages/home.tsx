@@ -224,8 +224,8 @@ const Home: React.FC = () => {
       {/* Header: 88px desktop / 72px mobile. Category strip: ~120px desktop / ~104px mobile */}
       <div style={{ marginTop: fixedHeight }} className="pb-12">
         {/* Section header */}
-        <div className="max-w-[470px] mx-auto flex items-start justify-between gap-4 pt-4 pb-2 px-3 border-b border-gray-200">
-          <div className="flex flex-col gap-1">
+        <div className="max-w-[470px] md:max-w-6xl mx-auto flex items-start justify-between gap-4 pt-4 pb-2 px-3">
+          <div className="flex flex-col gap-1 w-full">
             <h1 className="text-gray-900 font-bold text-sm tracking-tight">
               {activeCategory?.name}
               {!isMenuLoading && !isPopularItemsLoading && (
@@ -234,7 +234,7 @@ const Home: React.FC = () => {
                 </span>
               )}
             </h1>
-            <p className="text-[12px] text-gray-500 leading-relaxed max-w-sm">
+            <p className="text-[12px] text-gray-500 leading-relaxed max-w-sm md:max-w-none">
               * Siparişinizi seçtikten sonra masadaki çağrı butonunu kullanarak sipariş verebilirsiniz.
             </p>
           </div>
@@ -244,7 +244,7 @@ const Home: React.FC = () => {
         {/* Instagram feed */}
         <div
           key={activeCategory?._id}
-          className="max-w-[470px] mx-auto flex flex-col"
+          className="max-w-[470px] md:max-w-6xl mx-auto flex flex-col md:grid md:grid-cols-4 md:gap-x-4"
         >
           {isMenuLoading || isPopularItemsLoading
             ? [...Array(12)].map((_, i) => (

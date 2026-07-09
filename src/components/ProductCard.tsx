@@ -54,7 +54,7 @@ const ProductCard = ({ product, categories }: IProps) => {
   const isTruncated = hasDesc && description.length > DESC_LIMIT;
 
   return (
-    <div className="bg-white border-b border-gray-200">
+    <div className="bg-white border-b border-gray-200 md:border md:rounded-lg md:overflow-hidden md:mb-4">
       {/* ── Header ── */}
       <div className="flex items-center justify-between px-3 py-2.5">
         <div className="flex items-center gap-2.5">
