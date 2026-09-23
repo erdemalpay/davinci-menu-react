@@ -27,6 +27,8 @@ export interface ICustomerPopup {
   title: string;
   content: string;
   imageUrl?: string;
+  buttonText?: string;
+  buttonUrl?: string;
   cooldownHours: number;
 }
 

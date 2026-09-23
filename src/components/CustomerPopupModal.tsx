@@ -1,6 +1,11 @@
 import React from "react";
 import { ICustomerPopup } from "../common/apis";
 
+const primaryButtonStyle = {
+  background: "linear-gradient(135deg, #f79c68, #f4623a)",
+  boxShadow: "0 4px 14px rgba(244,98,58,0.35)",
+};
+
 interface Props {
   popup: ICustomerPopup;
   onClose: () => void;
@@ -63,23 +68,41 @@ const CustomerPopupModal: React.FC<Props> = ({ popup, onClose }) => {
             {popup.content}
           </p>
 
-          {/* Tamam butonu */}
-          <button
-            onClick={onClose}
-            className="mt-6 w-full py-2.5 rounded-xl font-semibold text-white text-sm tracking-wide transition-all active:scale-95"
-            style={{
-              background: "linear-gradient(135deg, #f79c68, #f4623a)",
-              boxShadow: "0 4px 14px rgba(244,98,58,0.35)",
-            }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLButtonElement).style.opacity = "0.88")
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLButtonElement).style.opacity = "1")
-            }
-          >
-            Tamam
-          </button>
+          {/* Link butonu (ör. turnuva kaydı): tıklanınca popup görüldü sayılır ve linke gidilir */}
+          {popup.buttonUrl && (
+            <a
+              href={popup.buttonUrl}
+              onClick={onClose}
+              className="mt-6 block w-full py-2.5 rounded-xl font-semibold text-white text-sm tracking-wide transition-all active:scale-95"
+              style={primaryButtonStyle}
+            >
+              {popup.buttonText || "Detaylar"}
+            </a>
+          )}
+
+          {/* Tamam butonu; link butonu varsa ikincil "Kapat" olarak görünür */}
+          {popup.buttonUrl ? (
+            <button
+              onClick={onClose}
+              className="mt-3 w-full py-2 text-sm font-medium text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              Kapat
+            </button>
+          ) : (
+            <button
+              onClick={onClose}
+              className="mt-6 w-full py-2.5 rounded-xl font-semibold text-white text-sm tracking-wide transition-all active:scale-95"
+              style={primaryButtonStyle}
+              onMouseEnter={(e) =>
+                ((e.currentTarget as HTMLButtonElement).style.opacity = "0.88")
+              }
+              onMouseLeave={(e) =>
+                ((e.currentTarget as HTMLButtonElement).style.opacity = "1")
+              }
+            >
+              Tamam
+            </button>
+          )}
         </div>
       </div>
     </div>
