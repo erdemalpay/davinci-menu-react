@@ -20,7 +20,7 @@ const CustomerPopupModal: React.FC<Props> = ({ popup, onClose }) => {
     >
       {/* Modal kutusu — tıklamayı yakala, kapatma */}
       <div
-        className="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden animate-fade-in"
+        className="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm max-h-[90vh] overflow-y-auto animate-fade-in"
         style={{ boxShadow: "0 8px 40px rgba(247,156,104,0.25)" }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -33,13 +33,19 @@ const CustomerPopupModal: React.FC<Props> = ({ popup, onClose }) => {
           ✕
         </button>
 
-        {/* Görsel */}
+        {/* Görsel — kırpılmadan kendi oranında; dikey afişte yan boşluklar aynı görselin bulanık hâliyle dolar */}
         {popup.imageUrl && (
-          <div className="w-full aspect-[2/1] overflow-hidden">
+          <div className="relative w-full overflow-hidden bg-gray-100">
+            <img
+              src={popup.imageUrl}
+              alt=""
+              aria-hidden
+              className="absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-60"
+            />
             <img
               src={popup.imageUrl}
               alt={popup.title}
-              className="w-full h-full object-cover object-center"
+              className="relative block w-full h-auto max-h-[60vh] object-contain"
             />
           </div>
         )}
