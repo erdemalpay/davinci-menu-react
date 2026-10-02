@@ -1,5 +1,6 @@
 import React from "react";
 import { ICustomerPopup } from "../common/apis";
+import MenuModal, { MenuModalTitle } from "./MenuModal";
 
 const primaryButtonStyle = {
   background: "linear-gradient(135deg, #f79c68, #f4623a)",
@@ -13,105 +14,73 @@ interface Props {
 
 const CustomerPopupModal: React.FC<Props> = ({ popup, onClose }) => {
   return (
-    <div
-      className="fixed inset-0 z-[1100] flex items-center justify-center px-4"
-      style={{ backgroundColor: "rgba(0,0,0,0.55)", backdropFilter: "blur(3px)" }}
-      onClick={onClose}
-    >
-      {/* Modal kutusu — tıklamayı yakala, kapatma */}
-      <div
-        className="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm max-h-[90vh] overflow-y-auto animate-fade-in"
-        style={{ boxShadow: "0 8px 40px rgba(247,156,104,0.25)" }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Kapat butonu */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-orange-100 text-gray-400 hover:text-orange-500 transition-colors text-lg font-bold leading-none"
-          aria-label="Kapat"
-        >
-          ✕
-        </button>
+    <MenuModal onClose={onClose}>
+      {/* Görsel — kırpılmadan kendi oranında; dikey afişte yan boşluklar aynı görselin bulanık hâliyle dolar */}
+      {popup.imageUrl && (
+        <div className="relative w-full overflow-hidden bg-gray-100">
+          <img
+            src={popup.imageUrl}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-60"
+          />
+          <img
+            src={popup.imageUrl}
+            alt={popup.title}
+            className="relative block w-full h-auto max-h-[60vh] object-contain"
+          />
+        </div>
+      )}
 
-        {/* Görsel — kırpılmadan kendi oranında; dikey afişte yan boşluklar aynı görselin bulanık hâliyle dolar */}
-        {popup.imageUrl && (
-          <div className="relative w-full overflow-hidden bg-gray-100">
-            <img
-              src={popup.imageUrl}
-              alt=""
-              aria-hidden
-              className="absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-60"
-            />
-            <img
-              src={popup.imageUrl}
-              alt={popup.title}
-              className="relative block w-full h-auto max-h-[60vh] object-contain"
-            />
-          </div>
+      {/* İçerik */}
+      <div className="px-6 pt-5 pb-6 text-center">
+        <MenuModalTitle>{popup.title}</MenuModalTitle>
+
+        {/* İçerik metni */}
+        <p
+          className="text-sm leading-relaxed whitespace-pre-line"
+          style={{ color: "#5a5a5a" }}
+        >
+          {popup.content}
+        </p>
+
+        {/* Link butonu (ör. turnuva kaydı): tıklanınca popup görüldü sayılır ve linke gidilir */}
+        {popup.buttonUrl && (
+          <a
+            href={popup.buttonUrl}
+            onClick={onClose}
+            className="mt-6 block w-full py-2.5 rounded-xl font-semibold text-white text-sm tracking-wide transition-all active:scale-95"
+            style={primaryButtonStyle}
+          >
+            {popup.buttonText || "Detaylar"}
+          </a>
         )}
 
-        {/* İçerik */}
-        <div className="px-6 pt-5 pb-6 text-center">
-          {/* Başlık */}
-          <h2
-            className="text-xl font-bold mb-3 leading-snug"
-            style={{ color: "#2d2d2d", fontFamily: "Poppins, sans-serif" }}
+        {/* Tamam butonu; link butonu varsa ikincil "Kapat" olarak görünür */}
+        {popup.buttonUrl ? (
+          <button
+            onClick={onClose}
+            className="mt-3 w-full py-2 text-sm font-medium text-gray-400 hover:text-gray-600 transition-colors"
           >
-            {popup.title}
-          </h2>
-
-          {/* Ayraç */}
-          <div
-            className="mx-auto mb-4 h-0.5 w-12 rounded-full"
-            style={{ background: "linear-gradient(90deg, #f79c68, #f4623a)" }}
-          />
-
-          {/* İçerik metni */}
-          <p
-            className="text-sm leading-relaxed whitespace-pre-line"
-            style={{ color: "#5a5a5a" }}
+            Kapat
+          </button>
+        ) : (
+          <button
+            onClick={onClose}
+            className="mt-6 w-full py-2.5 rounded-xl font-semibold text-white text-sm tracking-wide transition-all active:scale-95"
+            style={primaryButtonStyle}
+            onMouseEnter={(e) =>
+              ((e.currentTarget as HTMLButtonElement).style.opacity = "0.88")
+            }
+            onMouseLeave={(e) =>
+              ((e.currentTarget as HTMLButtonElement).style.opacity = "1")
+            }
           >
-            {popup.content}
-          </p>
-
-          {/* Link butonu (ör. turnuva kaydı): tıklanınca popup görüldü sayılır ve linke gidilir */}
-          {popup.buttonUrl && (
-            <a
-              href={popup.buttonUrl}
-              onClick={onClose}
-              className="mt-6 block w-full py-2.5 rounded-xl font-semibold text-white text-sm tracking-wide transition-all active:scale-95"
-              style={primaryButtonStyle}
-            >
-              {popup.buttonText || "Detaylar"}
-            </a>
-          )}
-
-          {/* Tamam butonu; link butonu varsa ikincil "Kapat" olarak görünür */}
-          {popup.buttonUrl ? (
-            <button
-              onClick={onClose}
-              className="mt-3 w-full py-2 text-sm font-medium text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              Kapat
-            </button>
-          ) : (
-            <button
-              onClick={onClose}
-              className="mt-6 w-full py-2.5 rounded-xl font-semibold text-white text-sm tracking-wide transition-all active:scale-95"
-              style={primaryButtonStyle}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLButtonElement).style.opacity = "0.88")
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLButtonElement).style.opacity = "1")
-              }
-            >
-              Tamam
-            </button>
-          )}
-        </div>
+            Tamam
+          </button>
+        )}
       </div>
-    </div>
+    </MenuModal>
   );
 };
 

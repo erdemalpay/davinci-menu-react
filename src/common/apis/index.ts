@@ -40,3 +40,17 @@ export const getActiveCustomerPopup = async (
   );
   return request.data;
 };
+
+export interface IOpenTournament {
+  _id: number;
+  name: string;
+  date: string;
+  slug: string;
+}
+
+export const getOpenTournaments = async (): Promise<IOpenTournament[]> => {
+  const request: AxiosResponse<IOpenTournament[]> = await axios.get(
+    "/tournaments/public"
+  );
+  return request.data;
+};
