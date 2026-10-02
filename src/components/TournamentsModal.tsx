@@ -1,10 +1,11 @@
 import React from "react";
 import { IOpenTournament } from "../common/apis";
+import { PANEL_URL } from "../utils/constants";
 import MenuModal, { MenuModalTitle } from "./MenuModal";
 
 // Kayıt formu panelde; ?source=qr ile başvurunun menüden (masadaki QR) geldiği görünür
 const registrationUrl = (slug: string) =>
-  `${import.meta.env.VITE_PANEL_URL}/tournament/${slug}?source=qr`;
+  `${PANEL_URL}/tournament/${slug}?source=qr`;
 
 const formatDate = (date: string) =>
   new Date(date).toLocaleDateString("tr-TR", {
